@@ -6,14 +6,19 @@
 package business.lab.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author utente
  */
+@Entity
+@Table(name = "documento")
 public class Documento extends AbstractEntity {
 
     public static enum Tipo {
@@ -22,10 +27,12 @@ public class Documento extends AbstractEntity {
 
     @NotEmpty(message = "Il campo denominazione è obbligatorio")
     @Column(nullable = false)
+    @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
     
     @NotEmpty(message = "Il campo file è obbligatorio")
     @Column(nullable = false)
+    @Size(message = "Il campo file può avere al max 255 caratteri")
     private String file;
 
     @Enumerated(EnumType.STRING)

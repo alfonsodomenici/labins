@@ -6,17 +6,12 @@
 package business.lab.entity;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.validation.constraints.Past;
 
 /**
  *
@@ -31,24 +26,6 @@ public class AbstractEntity implements Serializable {
 
     @Version
     protected Long version;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Past
-    @Column(name = "data_creazione")
-    protected Instant creatoIl;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Past
-    @Column(name = "data_modifca")
-    protected Instant modificatoIl;
-
-    @Column(name = "utente_creazione")
-    protected String creatoDa;
-
-    @Column(name = "utente_modifica")
-    protected String modificatoDa;
-
-    protected boolean nascosto;
 
     @Override
     public int hashCode() {
@@ -86,46 +63,6 @@ public class AbstractEntity implements Serializable {
 
     public void setVersion(Long version) {
         this.version = version;
-    }
-
-    public boolean isNascosto() {
-        return nascosto;
-    }
-
-    public void setNascosto(boolean nascosto) {
-        this.nascosto = nascosto;
-    }
-
-    public Instant getCreatoIl() {
-        return creatoIl;
-    }
-
-    public void setCreatoIl(Instant creatoIl) {
-        this.creatoIl = creatoIl;
-    }
-
-    public Instant getModificatoIl() {
-        return modificatoIl;
-    }
-
-    public void setModificatoIl(Instant modificatoIl) {
-        this.modificatoIl = modificatoIl;
-    }
-
-    public String getCreatoDa() {
-        return creatoDa;
-    }
-
-    public void setCreatoDa(String creatoDa) {
-        this.creatoDa = creatoDa;
-    }
-
-    public String getModificatoDa() {
-        return modificatoDa;
-    }
-
-    public void setModificatoDa(String modificatoDa) {
-        this.modificatoDa = modificatoDa;
     }
 
 }

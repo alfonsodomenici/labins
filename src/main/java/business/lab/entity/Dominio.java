@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -16,10 +17,11 @@ import javax.validation.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "dominio")
-public class Dominio extends AbstractEntity {
+public class Dominio extends BaseEntity {
 
     @NotEmpty(message = "Il campo denominazione è obbligatorio")
     @Column(nullable = false)
+    @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
 
     public String getDenominazione() {

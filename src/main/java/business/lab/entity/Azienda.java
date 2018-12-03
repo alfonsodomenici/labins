@@ -6,22 +6,32 @@
 package business.lab.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author utente
  */
-public class Azienda extends AbstractEntity {
+@Entity
+@Table(name = "azienda")
+public class Azienda extends BaseEntity {
 
     @NotEmpty(message = "Il campo denominazione è obbligatorio")
     @Column(nullable = false)
+    @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
+    @Size(message = "Il campo contatto può avere al max 255 caratteri")
     private String contatto;
+    @Size(message = "Il campo telefono può avere al max 255 caratteri")
     private String telefono;
     @Email(message = "Il campo email non è valido")
+    @Size(message = "Il campo email può avere al max 255 caratteri")
     private String email;
+    @Size(message = "Il campo note può avere al max 255 caratteri")
     private String note;
 
     private boolean costruttore;

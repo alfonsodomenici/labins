@@ -5,17 +5,16 @@
  */
 package business.lab.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  *
  * @author utente
  */
-public class Attivita extends AbstractEntity {
-
-    public static enum Tipo {
-        MANUTENZIONE, TARATURA, FS_STRAORDINARIO
-    }
-
-    public static enum Esito {
-        POSITIVO, NEGATIVO
-    }
+@Entity
+@Table(name = "gestione_descrittiva")
+public class GestioneDescrittiva extends BaseEntity{
+    
+    private String descrizione;
 }
