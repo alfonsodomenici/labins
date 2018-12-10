@@ -5,11 +5,9 @@
  */
 package business.lab.entity;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 
 /**
@@ -19,15 +17,13 @@ import javax.validation.constraints.Past;
 @MappedSuperclass
 public class BaseEntity extends AbstractEntity {
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Past
     @Column(name = "data_creazione")
-    protected Instant creatoIl;
+    protected LocalDate creatoIl;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Past
     @Column(name = "data_modifca")
-    protected Instant modificatoIl;
+    protected LocalDate modificatoIl;
 
     @Column(name = "utente_creazione")
     protected String creatoDa;
@@ -37,19 +33,19 @@ public class BaseEntity extends AbstractEntity {
 
     protected boolean nascosto;
 
-    public Instant getCreatoIl() {
+    public LocalDate getCreatoIl() {
         return creatoIl;
     }
 
-    public void setCreatoIl(Instant creatoIl) {
+    public void setCreatoIl(LocalDate creatoIl) {
         this.creatoIl = creatoIl;
     }
 
-    public Instant getModificatoIl() {
+    public LocalDate getModificatoIl() {
         return modificatoIl;
     }
 
-    public void setModificatoIl(Instant modificatoIl) {
+    public void setModificatoIl(LocalDate modificatoIl) {
         this.modificatoIl = modificatoIl;
     }
 
