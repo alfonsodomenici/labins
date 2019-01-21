@@ -22,7 +22,6 @@ import javax.validation.constraints.Size;
 @Table(name = "deroga")
 public class Deroga extends BaseEntity{
     
-    @Temporal(TemporalType.DATE)
     @Column(name = "deroga_scadenza")
     private LocalDate derogaScadenza;
     

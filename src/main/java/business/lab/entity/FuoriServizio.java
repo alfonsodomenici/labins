@@ -51,11 +51,9 @@ public class FuoriServizio extends AbstractEntity {
     @JoinColumn(name = "riferimento_id", nullable = false)
     private Apparecchiatura riferimento;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "data_inizio")
     private LocalDate inizio;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "data_fine")
     private LocalDate fine;
 
@@ -65,7 +63,6 @@ public class FuoriServizio extends AbstractEntity {
     @Column(name = "utente_fine")
     private String utenteFine;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "data_certificato")
     private LocalDate certificatoIl;
 

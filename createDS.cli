@@ -1,0 +1,9 @@
+# Mark the commands below to be run as a batch
+
+connect 127.0.0.1
+
+batch
+
+data-source add --jndi-name=java:/jboss/datasources/labins --name=labinsDS --connection-url=jdbc:postgresql://localhost:5432/labins --driver-name=postgres  --user-name=labins --password="labins"
+
+run-batch

@@ -14,8 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -86,15 +84,12 @@ public class Apparecchiatura extends BaseEntity {
     @Column(name = "criterio_accettazione")
     private String criterioAccettazione;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "data_fabbricazione")
     private LocalDate fabbricatoIl;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "data_acquisto")
     private LocalDate acquistatoIl;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "data_entrata_funzione")
     private LocalDate inFunzioneDal;
 

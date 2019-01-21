@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 @Table(name = "gestione_temporale")
 public class GestioneTemporale extends BaseEntity {
     
-    @Temporal(TemporalType.DATE)
+    
     private LocalDate scadenza;
     
     private int freq;
