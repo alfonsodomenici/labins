@@ -16,8 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
@@ -83,5 +81,122 @@ public class FuoriServizio extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id")
     )
     private Set<Documento> documenti;
+
+    public Motivo getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(Motivo motivo) {
+        this.motivo = motivo;
+    }
+
+    public Apparecchiatura getApparecchiatura() {
+        return apparecchiatura;
+    }
+
+    public void setApparecchiatura(Apparecchiatura apparecchiatura) {
+        this.apparecchiatura = apparecchiatura;
+    }
+
+    public Azienda getAzienda() {
+        return azienda;
+    }
+
+    public void setAzienda(Azienda azienda) {
+        this.azienda = azienda;
+    }
+
+    public Apparecchiatura getRiferimento() {
+        return riferimento;
+    }
+
+    public void setRiferimento(Apparecchiatura riferimento) {
+        this.riferimento = riferimento;
+    }
+
+    public LocalDate getInizio() {
+        return inizio;
+    }
+
+    public void setInizio(LocalDate inizio) {
+        this.inizio = inizio;
+    }
+
+    public LocalDate getFine() {
+        return fine;
+    }
+
+    public void setFine(LocalDate fine) {
+        this.fine = fine;
+    }
+
+    public String getUtenteInizio() {
+        return utenteInizio;
+    }
+
+    public void setUtenteInizio(String utenteInizio) {
+        this.utenteInizio = utenteInizio;
+    }
+
+    public String getUtenteFine() {
+        return utenteFine;
+    }
+
+    public void setUtenteFine(String utenteFine) {
+        this.utenteFine = utenteFine;
+    }
+
+    public LocalDate getCertificatoIl() {
+        return certificatoIl;
+    }
+
+    public void setCertificatoIl(LocalDate certificatoIl) {
+        this.certificatoIl = certificatoIl;
+    }
+
+    public Esito getEsito() {
+        return esito;
+    }
+
+    public void setEsito(Esito esito) {
+        this.esito = esito;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public boolean isAccreditato() {
+        return accreditato;
+    }
+
+    public void setAccreditato(boolean accreditato) {
+        this.accreditato = accreditato;
+    }
+
+    public boolean isVerifica() {
+        return verifica;
+    }
+
+    public void setVerifica(boolean verifica) {
+        this.verifica = verifica;
+    }
+
+    public Set<Documento> getDocumenti() {
+        return documenti;
+    }
+
+    public void setDocumenti(Set<Documento> documenti) {
+        this.documenti = documenti;
+    }
+    
+    @Override
+    public String toString() {
+        return descrizione;
+    }
 
 }

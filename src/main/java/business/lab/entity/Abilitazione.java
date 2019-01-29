@@ -36,4 +36,35 @@ public class Abilitazione extends BaseEntity {
     
     @Enumerated(EnumType.STRING)
     private Livello livello;
+
+    public String getUtente() {
+        return utente;
+    }
+
+    public void setUtente(String utente) {
+        this.utente = utente;
+    }
+
+    public Laboratorio getLaboratorio() {
+        return laboratorio;
+    }
+
+    public void setLaboratorio(Laboratorio laboratorio) {
+        this.laboratorio = laboratorio;
+    }
+
+    public Livello getLivello() {
+        return livello;
+    }
+
+    public void setLivello(Livello livello) {
+        this.livello = livello;
+    }
+
+    @Override
+    public String toString() {
+        return "Abilitazione{" + "utente=" + utente + ", laboratorio=" + laboratorio + ", livello=" + livello + '}';
+    }
+    
+    
 }

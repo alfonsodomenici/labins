@@ -17,4 +17,17 @@ import javax.persistence.Table;
 public class GestioneDescrittiva extends BaseEntity{
     
     private String descrizione;
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+    
+    @Override
+    public String toString() {
+        return descrizione;
+    }
 }

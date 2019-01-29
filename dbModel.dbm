@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.1" last-position="263,657" last-zoom="1.05"
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,0" last-zoom="1"
 	 default-schema="public" default-owner="postgres">
 <role name="labins"
       inherit="true"
@@ -17,7 +17,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<tablespace name="pg_default"/>
 </database>
 
-<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
 <sequence name="abilitazione_id_seq"
@@ -28,10 +28,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="labins"/>
 </sequence>
 
-<table name="abilitazione" hide-ext-attribs="true">
+<table name="abilitazione">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="880" y="0"/>
+	<position x="300" y="40"/>
 	<column name="id" not-null="true" sequence="public.abilitazione_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -78,7 +78,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="apparecchiatura" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="460" y="600"/>
+	<position x="320" y="220"/>
 	<column name="id" not-null="true" sequence="public.apparecchiatura_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -136,9 +136,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="riferimento" not-null="true">
 		<type name="boolean" length="0"/>
 	</column>
-	<column name="catena_misura_id">
-		<type name="bigint" length="0"/>
-	</column>
 	<column name="costruttore_id">
 		<type name="bigint" length="0"/>
 	</column>
@@ -177,10 +174,25 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
+<table name="apparecchiatura_catena_misura" hide-ext-attribs="true">
+	<schema name="public"/>
+	<role name="labins"/>
+	<position x="120" y="360"/>
+	<column name="apparecchiatura_id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="catena_misura_id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<constraint name="apparecchiatura_catena_misura_pkey" type="pk-constr" table="public.apparecchiatura_catena_misura">
+		<columns names="apparecchiatura_id,catena_misura_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
 <table name="apparecchiatura_documento" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="880" y="240"/>
+	<position x="560" y="40"/>
 	<column name="apparecchiatura_id" not-null="true">
 		<type name="bigint" length="0"/>
 	</column>
@@ -203,7 +215,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="azienda" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="0" y="600"/>
+	<position x="260" y="940"/>
 	<column name="id" not-null="true" sequence="public.azienda_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -257,7 +269,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<sequence name="catene_misura_id_seq"
+<sequence name="catena_misura_id_seq"
 	 start="1" increment="1"
 	 min-value="1" max-value="9223372036854775807"
 	 cache="1" cycle="false">
@@ -265,11 +277,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="labins"/>
 </sequence>
 
-<table name="catene_misura" hide-ext-attribs="true">
+<table name="catena_misura" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="460" y="300"/>
-	<column name="id" not-null="true" sequence="public.catene_misura_id_seq">
+	<position x="40" y="440"/>
+	<column name="id" not-null="true" sequence="public.catena_misura_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
 	<column name="version">
@@ -293,7 +305,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="denominazione" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
-	<constraint name="catene_misura_pkey" type="pk-constr" table="public.catene_misura">
+	<column name="dominio_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<constraint name="catena_misura_pkey" type="pk-constr" table="public.catena_misura">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -306,10 +321,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="labins"/>
 </sequence>
 
-<table name="deroga">
+<table name="deroga" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="1160" y="600"/>
+	<position x="620" y="340"/>
 	<column name="id" not-null="true" sequence="public.deroga_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -356,7 +371,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="documento" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="1280" y="20"/>
+	<position x="540" y="100"/>
 	<column name="id" not-null="true" sequence="public.documento_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -391,7 +406,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="dominio" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="20" y="200"/>
+	<position x="40" y="180"/>
 	<column name="id" not-null="true" sequence="public.dominio_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -416,6 +431,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="denominazione" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
+	<column name="laboratorio_id">
+		<type name="bigint" length="0"/>
+	</column>
 	<constraint name="dominio_pkey" type="pk-constr" table="public.dominio">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -432,7 +450,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="fuori_servizio" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="1280" y="200"/>
+	<position x="620" y="600"/>
 	<column name="id" not-null="true" sequence="public.fuori_servizio_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -486,7 +504,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="fuori_servizio_documento" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="880" y="340"/>
+	<position x="640" y="240"/>
 	<column name="fuori_servizio_id" not-null="true">
 		<type name="bigint" length="0"/>
 	</column>
@@ -509,7 +527,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="gestione_apparecchiatura" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="1260" y="940"/>
+	<position x="600" y="840"/>
 	<column name="id" not-null="true" sequence="public.gestione_apparecchiatura_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -562,7 +580,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="gestione_descrittiva" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="860" y="600"/>
+	<position x="520" y="1020"/>
 	<column name="id" not-null="true" sequence="public.gestione_descrittiva_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -603,7 +621,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="gestione_temporale" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="860" y="800"/>
+	<position x="320" y="720"/>
 	<column name="id" not-null="true" sequence="public.gestione_temporale_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -647,7 +665,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="grandezza" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="0" y="1060"/>
+	<position x="40" y="720"/>
 	<column name="id" not-null="true" sequence="public.grandezza_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -673,7 +691,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="laboratorio" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="20" y="0"/>
+	<position x="60" y="60"/>
 	<column name="id" not-null="true" sequence="public.laboratorio_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -703,42 +721,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="laboratorio_catene_misura" hide-ext-attribs="true">
-	<schema name="public"/>
-	<role name="labins"/>
-	<position x="420" y="180"/>
-	<column name="laboratorio_id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<column name="catenemisura_id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<constraint name="laboratorio_catene_misura_pkey" type="pk-constr" table="public.laboratorio_catene_misura">
-		<columns names="laboratorio_id,catenemisura_id" ref-type="src-columns"/>
-	</constraint>
-	<constraint name="uk_jid9bdfx1f3r450ukfnjvl301" type="uq-constr" table="public.laboratorio_catene_misura">
-		<columns names="catenemisura_id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="laboratorio_dominio" hide-ext-attribs="true">
-	<schema name="public"/>
-	<role name="labins"/>
-	<position x="460" y="20"/>
-	<column name="laboratorio_id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<column name="domini_id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<constraint name="laboratorio_dominio_pkey" type="pk-constr" table="public.laboratorio_dominio">
-		<columns names="laboratorio_id,domini_id" ref-type="src-columns"/>
-	</constraint>
-	<constraint name="uk_mahrnpfkyh5inloyq96fjj7t6" type="uq-constr" table="public.laboratorio_dominio">
-		<columns names="domini_id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <sequence name="tipo_apparecchiatura_id_seq"
 	 start="1" increment="1"
 	 min-value="1" max-value="9223372036854775807"
@@ -750,7 +732,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tipo_apparecchiatura" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="0" y="400"/>
+	<position x="40" y="600"/>
 	<column name="id" not-null="true" sequence="public.tipo_apparecchiatura_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -763,23 +745,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="descrizione" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
+	<column name="laboratorio_id">
+		<type name="bigint" length="0"/>
+	</column>
 	<constraint name="tipo_apparecchiatura_pkey" type="pk-constr" table="public.tipo_apparecchiatura">
 		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
-<table name="tipo_apparecchiatura_laboratorio" hide-ext-attribs="true">
-	<schema name="public"/>
-	<role name="labins"/>
-	<position x="300" y="500"/>
-	<column name="tipo_apparecchiatura_id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<column name="laboratorio_id" not-null="true">
-		<type name="bigint" length="0"/>
-	</column>
-	<constraint name="tipo_apparecchiatura_laboratorio_pkey" type="pk-constr" table="public.tipo_apparecchiatura_laboratorio">
-		<columns names="tipo_apparecchiatura_id,laboratorio_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -794,7 +764,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="unita_misura" hide-ext-attribs="true">
 	<schema name="public"/>
 	<role name="labins"/>
-	<position x="0" y="920"/>
+	<position x="40" y="820"/>
 	<column name="id" not-null="true" sequence="public.unita_misura_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -815,12 +785,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="fk17u71updcihb8mjqxn9v52t69" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.laboratorio" table="public.abilitazione">
 	<columns names="laboratorio_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fkdjfrqie05adh9nx5b44fji9jg" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.catene_misura" table="public.apparecchiatura">
-	<columns names="catena_misura_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -890,6 +854,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fkg9btfeyttlyc45okwrrmrtyeh" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.catena_misura" table="public.apparecchiatura_catena_misura">
+	<columns names="catena_misura_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fkfuncqfrjrgstydaa6qlaujp89" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.apparecchiatura" table="public.apparecchiatura_catena_misura">
+	<columns names="apparecchiatura_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk888yg19rqan217akgfnx661ow" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.documento" table="public.apparecchiatura_documento">
 	<columns names="documento_id" ref-type="src-columns"/>
@@ -902,9 +878,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fktnjea4bpscinwfemmktcaes17" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.dominio" table="public.catena_misura">
+	<columns names="dominio_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk214rv64oa3x04mqhx246by5vu" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.gestione_temporale" table="public.deroga">
 	<columns names="gestione_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk7hwh0go1pyhtfepdcy2gv97mj" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.laboratorio" table="public.dominio">
+	<columns names="laboratorio_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -956,220 +944,182 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk23ja64l596nyfafcgfjaxvh38" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.catene_misura" table="public.laboratorio_catene_misura">
-	<columns names="catenemisura_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk8xerwliv7no9i51f6mvnbr3ot" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.laboratorio" table="public.laboratorio_catene_misura">
+<constraint name="fkjh14wr3dcxefhilp8a6wrfmeu" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.laboratorio" table="public.tipo_apparecchiatura">
 	<columns names="laboratorio_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk9o51d6wtglu3s3crrswvyo06b" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.dominio" table="public.laboratorio_dominio">
-	<columns names="domini_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fkq9xicmjta9d4he0xxjj1c8wb7" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.laboratorio" table="public.laboratorio_dominio">
-	<columns names="laboratorio_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk9ggg2lkcx2gptw5lq141xgtcy" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.laboratorio" table="public.tipo_apparecchiatura_laboratorio">
-	<columns names="laboratorio_id" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fkcl2ettyq0djkonqw67ur5a14k" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tipo_apparecchiatura" table="public.tipo_apparecchiatura_laboratorio">
-	<columns names="tipo_apparecchiatura_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
 <relationship name="rel_abilitazione_laboratorio" type="relfk"
-	 custom-color="#3463d7"
+	 custom-color="#ec58bb"
 	 src-table="public.abilitazione"
 	 dst-table="public.laboratorio" reference-fk="fk17u71updcihb8mjqxn9v52t69"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_apparecchiatura_catene_misura" type="relfk"
-	 custom-color="#820ded"
-	 src-table="public.apparecchiatura"
-	 dst-table="public.catene_misura" reference-fk="fkdjfrqie05adh9nx5b44fji9jg"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_apparecchiatura_azienda" type="relfk"
-	 custom-color="#e14eda"
+	 custom-color="#b867c8"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.azienda" reference-fk="fk5x04tj9yvkdp46dytfhs5cr7h"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_azienda1" type="relfk"
-	 custom-color="#64d2fb"
+	 custom-color="#db66fe"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.azienda" reference-fk="fkcbfylpppjy9jjvu5qg8byxjkh"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_dominio" type="relfk"
-	 custom-color="#688472"
+	 custom-color="#f49c1d"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.dominio" reference-fk="fk8804e6g9ygfpkx9awxs35lxbd"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_gestione_apparecchiatura" type="relfk"
-	 custom-color="#8f679a"
+	 custom-color="#f318c9"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.gestione_apparecchiatura" reference-fk="fkclipoedoq2p3gwuh6u3ap07w1"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_gestione_apparecchiatura1" type="relfk"
-	 custom-color="#2f1447"
+	 custom-color="#43cb18"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.gestione_apparecchiatura" reference-fk="fksojwwu56frmrrpodrs7q757qm"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_grandezza" type="relfk"
-	 custom-color="#056cf2"
+	 custom-color="#ebf74b"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.grandezza" reference-fk="fkanwbpmk9d4kgjn3wb9nr7l1ct"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_laboratorio" type="relfk"
-	 custom-color="#9bec75"
+	 custom-color="#70fe1f"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.laboratorio" reference-fk="fkkk0syy38vq62s3spnyqdawwly"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_azienda2" type="relfk"
-	 custom-color="#f2b07f"
+	 custom-color="#5315f3"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.azienda" reference-fk="fk5ollg49ly9qoq37uy9agftryj"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_azienda3" type="relfk"
-	 custom-color="#9bb7f7"
+	 custom-color="#5aff08"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.azienda" reference-fk="fkgrpepom2kco3kimbb3phts189"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_tipo_apparecchiatura" type="relfk"
-	 custom-color="#6b672d"
+	 custom-color="#1bf8c6"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.tipo_apparecchiatura" reference-fk="fko3af9mlsmlodvfsmf1sihmu62"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_unita_misura" type="relfk"
-	 custom-color="#7e41a0"
+	 custom-color="#75ae65"
 	 src-table="public.apparecchiatura"
 	 dst-table="public.unita_misura" reference-fk="fkscd9tadr02q1ecgbsyccjr7gf"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_apparecchiatura_catena_misura_catena_misura" type="relfk"
+	 custom-color="#6220dc"
+	 src-table="public.apparecchiatura_catena_misura"
+	 dst-table="public.catena_misura" reference-fk="fkg9btfeyttlyc45okwrrmrtyeh"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_apparecchiatura_catena_misura_apparecchiatura" type="relfk"
+	 custom-color="#5da229"
+	 src-table="public.apparecchiatura_catena_misura"
+	 dst-table="public.apparecchiatura" reference-fk="fkfuncqfrjrgstydaa6qlaujp89"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_apparecchiatura_documento_documento" type="relfk"
-	 custom-color="#00b6b8"
+	 custom-color="#4c3bfb"
 	 src-table="public.apparecchiatura_documento"
 	 dst-table="public.documento" reference-fk="fk888yg19rqan217akgfnx661ow"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_apparecchiatura_documento_apparecchiatura" type="relfk"
-	 custom-color="#b62c3c"
+	 custom-color="#51b691"
 	 src-table="public.apparecchiatura_documento"
 	 dst-table="public.apparecchiatura" reference-fk="fkow07nxy5ycp0is4mmu2a68h2j"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_catena_misura_dominio" type="relfk"
+	 custom-color="#35d788"
+	 src-table="public.catena_misura"
+	 dst-table="public.dominio" reference-fk="fktnjea4bpscinwfemmktcaes17"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_deroga_gestione_temporale" type="relfk"
-	 custom-color="#a981a4"
+	 custom-color="#ebbe28"
 	 src-table="public.deroga"
 	 dst-table="public.gestione_temporale" reference-fk="fk214rv64oa3x04mqhx246by5vu"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_dominio_laboratorio" type="relfk"
+	 custom-color="#f8c7ba"
+	 src-table="public.dominio"
+	 dst-table="public.laboratorio" reference-fk="fk7hwh0go1pyhtfepdcy2gv97mj"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_fuori_servizio_apparecchiatura" type="relfk"
-	 custom-color="#f88d79"
+	 custom-color="#00a3e8"
 	 src-table="public.fuori_servizio"
 	 dst-table="public.apparecchiatura" reference-fk="fk1fuoai3o4d74fp13uk2kxi87y"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_fuori_servizio_azienda" type="relfk"
-	 custom-color="#8211ec"
+	 custom-color="#b21732"
 	 src-table="public.fuori_servizio"
 	 dst-table="public.azienda" reference-fk="fkpshm6j31kkcbeuaqxr4vxl4un"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_fuori_servizio_apparecchiatura1" type="relfk"
-	 custom-color="#7b3f13"
+	 custom-color="#a67532"
 	 src-table="public.fuori_servizio"
 	 dst-table="public.apparecchiatura" reference-fk="fkrp6f0ibkyt9v5k7ytxgov8vf0"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
 
 <relationship name="rel_fuori_servizio_documento_documento" type="relfk"
-	 custom-color="#063055"
+	 custom-color="#cdf650"
 	 src-table="public.fuori_servizio_documento"
 	 dst-table="public.documento" reference-fk="fk5isl38dytbh4xu81mkooy5de9"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_fuori_servizio_documento_fuori_servizio" type="relfk"
-	 custom-color="#3a27b7"
+	 custom-color="#488e22"
 	 src-table="public.fuori_servizio_documento"
 	 dst-table="public.fuori_servizio" reference-fk="fkqqojigxalmi6cfjdtbtn90s4j"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_gestione_apparecchiatura_azienda" type="relfk"
-	 custom-color="#7205fd"
+	 custom-color="#c5af30"
 	 src-table="public.gestione_apparecchiatura"
 	 dst-table="public.azienda" reference-fk="fk478xmymvw3mmfbuc4n544m01y"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_gestione_apparecchiatura_gestione_descrittiva" type="relfk"
-	 custom-color="#8bb9a6"
+	 custom-color="#fa67c0"
 	 src-table="public.gestione_apparecchiatura"
 	 dst-table="public.gestione_descrittiva" reference-fk="fkpburoyxxy4i5dgma0gc3rdhem"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_gestione_apparecchiatura_gestione_temporale" type="relfk"
-	 custom-color="#b8c32d"
+	 custom-color="#747f1e"
 	 src-table="public.gestione_apparecchiatura"
 	 dst-table="public.gestione_temporale" reference-fk="fk24i3w6ykptjhy9538ord22vdj"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_laboratorio_catene_misura_catene_misura" type="relfk"
-	 custom-color="#2d6a1c"
-	 src-table="public.laboratorio_catene_misura"
-	 dst-table="public.catene_misura" reference-fk="fk23ja64l596nyfafcgfjaxvh38"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_laboratorio_catene_misura_laboratorio" type="relfk"
-	 custom-color="#459cc4"
-	 src-table="public.laboratorio_catene_misura"
-	 dst-table="public.laboratorio" reference-fk="fk8xerwliv7no9i51f6mvnbr3ot"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_laboratorio_dominio_dominio" type="relfk"
-	 custom-color="#25d64a"
-	 src-table="public.laboratorio_dominio"
-	 dst-table="public.dominio" reference-fk="fk9o51d6wtglu3s3crrswvyo06b"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_laboratorio_dominio_laboratorio" type="relfk"
-	 custom-color="#9eae7d"
-	 src-table="public.laboratorio_dominio"
-	 dst-table="public.laboratorio" reference-fk="fkq9xicmjta9d4he0xxjj1c8wb7"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tipo_apparecchiatura_laboratorio_laboratorio" type="relfk"
-	 custom-color="#62f58d"
-	 src-table="public.tipo_apparecchiatura_laboratorio"
-	 dst-table="public.laboratorio" reference-fk="fk9ggg2lkcx2gptw5lq141xgtcy"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tipo_apparecchiatura_laboratorio_tipo_apparecchiatura" type="relfk"
-	 custom-color="#8f5c42"
-	 src-table="public.tipo_apparecchiatura_laboratorio"
-	 dst-table="public.tipo_apparecchiatura" reference-fk="fkcl2ettyq0djkonqw67ur5a14k"
+<relationship name="rel_tipo_apparecchiatura_laboratorio" type="relfk"
+	 custom-color="#9b1c14"
+	 src-table="public.tipo_apparecchiatura"
+	 dst-table="public.laboratorio" reference-fk="fkjh14wr3dcxefhilp8a6wrfmeu"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

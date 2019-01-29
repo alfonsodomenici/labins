@@ -73,5 +73,8 @@ public class Documento extends AbstractEntity {
         this.mediaType = mediaType;
     }
     
-    
+    @Override
+    public String toString() {
+        return denominazione;
+    }
 }

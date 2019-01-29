@@ -10,8 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
@@ -20,15 +18,15 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "deroga")
-public class Deroga extends BaseEntity{
-    
+public class Deroga extends BaseEntity {
+
     @Column(name = "deroga_scadenza")
     private LocalDate derogaScadenza;
-    
+
     @Column(length = 2048)
     @Size(message = "Il campo motivazione può avere al max 2048 caratteri")
     private String motivazione;
-    
+
     @ManyToOne
     private GestioneTemporale gestione;
 
@@ -55,7 +53,9 @@ public class Deroga extends BaseEntity{
     public void setGestione(GestioneTemporale gestione) {
         this.gestione = gestione;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return motivazione;
+    }
 }

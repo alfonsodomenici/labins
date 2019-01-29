@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -33,12 +34,8 @@ public class TipoApparecchiatura extends AbstractEntity {
     @Size(message = "Il campo descrizione può avere al max 255 caratteri")
     private String descrizione;
 
-    @ManyToMany
-    @JoinTable(name = "tipo_apparecchiatura_laboratorio",
-            joinColumns = @JoinColumn(name = "tipo_apparecchiatura_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "laboratorio_id", referencedColumnName = "id")
-    )
-    private Set<Laboratorio> laboratori;
+    @ManyToOne
+    private Laboratorio laboratorio;
 
     public String getCodice() {
         return codice;
@@ -56,13 +53,17 @@ public class TipoApparecchiatura extends AbstractEntity {
         this.descrizione = descrizione;
     }
 
-    public Set<Laboratorio> getLaboratori() {
-        return laboratori;
+    public Laboratorio getLaboratorio() {
+        return laboratorio;
     }
 
-    public void setLaboratori(Set<Laboratorio> laboratori) {
-        this.laboratori = laboratori;
+    public void setLaboratorio(Laboratorio laboratorio) {
+        this.laboratorio = laboratorio;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return codice;
+    }
+
 }

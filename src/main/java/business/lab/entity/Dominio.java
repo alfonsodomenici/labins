@@ -5,8 +5,11 @@
  */
 package business.lab.entity;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -24,12 +27,34 @@ public class Dominio extends BaseEntity {
     @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
 
+    @ManyToOne
+    private Laboratorio laboratorio;
+
+    @OneToMany(mappedBy = "dominio")
+    private Set<CatenaMisura> cateneMisura;
+
     public String getDenominazione() {
         return denominazione;
     }
 
     public void setDenominazione(String denominazione) {
         this.denominazione = denominazione;
+    }
+
+    public Laboratorio getLaboratorio() {
+        return laboratorio;
+    }
+
+    public void setLaboratorio(Laboratorio laboratorio) {
+        this.laboratorio = laboratorio;
+    }
+
+    public Set<CatenaMisura> getCateneMisura() {
+        return cateneMisura;
+    }
+
+    public void setCateneMisura(Set<CatenaMisura> cateneMisura) {
+        this.cateneMisura = cateneMisura;
     }
 
     @Override

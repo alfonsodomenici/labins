@@ -39,4 +39,49 @@ public class GestioneApparecchiatura extends BaseEntity {
     
     @Size(message = "Il campo attività può avere al max 255 caratteri")
     private String attivita;
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public GestioneTemporale getTemporale() {
+        return temporale;
+    }
+
+    public void setTemporale(GestioneTemporale temporale) {
+        this.temporale = temporale;
+    }
+
+    public GestioneDescrittiva getDescrittiva() {
+        return descrittiva;
+    }
+
+    public void setDescrittiva(GestioneDescrittiva descrittiva) {
+        this.descrittiva = descrittiva;
+    }
+
+    public Azienda getAzienda() {
+        return azienda;
+    }
+
+    public void setAzienda(Azienda azienda) {
+        this.azienda = azienda;
+    }
+
+    public String getAttivita() {
+        return attivita;
+    }
+
+    public void setAttivita(String attivita) {
+        this.attivita = attivita;
+    }
+    
+    @Override
+    public String toString() {
+        return tipo.toString();
+    }
 }

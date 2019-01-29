@@ -8,8 +8,6 @@ package business.lab.entity;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -18,10 +16,29 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "gestione_temporale")
 public class GestioneTemporale extends BaseEntity {
-    
-    
+
     private LocalDate scadenza;
-    
+
     private int freq;
-    
+
+    public LocalDate getScadenza() {
+        return scadenza;
+    }
+
+    public void setScadenza(LocalDate scadenza) {
+        this.scadenza = scadenza;
+    }
+
+    public int getFreq() {
+        return freq;
+    }
+
+    public void setFreq(int freq) {
+        this.freq = freq;
+    }
+
+    @Override
+    public String toString() {
+        return scadenza.toString();
+    }
 }

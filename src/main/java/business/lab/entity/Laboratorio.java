@@ -26,23 +26,18 @@ public class Laboratorio extends BaseEntity {
     @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
 
-    @OneToMany
+    @OneToMany(mappedBy = "laboratorio")
     private Set<Dominio> domini;
 
-    @OneToMany
-    private Set<CatenaMisura> cateneMisura;
-
+    @OneToMany(mappedBy = "laboratorio")
+    private Set<TipoApparecchiatura> tipiApparecchiatura;
+    
     public String getDenominazione() {
         return denominazione;
     }
 
     public void setDenominazione(String denominazione) {
         this.denominazione = denominazione;
-    }
-
-    @Override
-    public String toString() {
-        return denominazione;
     }
 
     public Set<Dominio> getDomini() {
@@ -53,13 +48,9 @@ public class Laboratorio extends BaseEntity {
         this.domini = domini;
     }
 
-    public Set<CatenaMisura> getCateneMisura() {
-        return cateneMisura;
+    @Override
+    public String toString() {
+        return denominazione;
     }
 
-    public void setCateneMisura(Set<CatenaMisura> cateneMisura) {
-        this.cateneMisura = cateneMisura;
-    }
-
-    
 }
