@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -27,7 +28,7 @@ import javax.validation.constraints.Size;
 public class FuoriServizio extends AbstractEntity {
 
     public static enum Motivo {
-        MANUTENZIONE, TARATURA, FS_STRAORDINARIO
+        MANUTENZIONE, TARATURA, VERIFICA_INTERMEDIA, FS_STRAORDINARIO
     }
 
     public static enum Esito {
@@ -41,14 +42,6 @@ public class FuoriServizio extends AbstractEntity {
     @JoinColumn(nullable = false)
     private Apparecchiatura apparecchiatura;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private Azienda azienda;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "riferimento_id", nullable = false)
-    private Apparecchiatura riferimento;
-
     @Column(name = "data_inizio")
     private LocalDate inizio;
 
@@ -61,9 +54,6 @@ public class FuoriServizio extends AbstractEntity {
     @Column(name = "utente_fine")
     private String utenteFine;
 
-    @Column(name = "data_certificato")
-    private LocalDate certificatoIl;
-
     @Enumerated(EnumType.STRING)
     private Esito esito;
 
@@ -71,16 +61,18 @@ public class FuoriServizio extends AbstractEntity {
     @Column(length = 1024)
     private String descrizione;
 
-    private boolean accreditato;
-
-    private boolean verifica;
-
     @ManyToMany()
     @JoinTable(name = "fuori_servizio_documento",
             joinColumns = @JoinColumn(name = "fuori_servizio_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id")
     )
     private Set<Documento> documenti;
+
+    @OneToOne
+    private FsTaratura taratura;
+
+    @OneToOne
+    private FsManutenzione manutenzione;
 
     public Motivo getMotivo() {
         return motivo;
@@ -96,22 +88,6 @@ public class FuoriServizio extends AbstractEntity {
 
     public void setApparecchiatura(Apparecchiatura apparecchiatura) {
         this.apparecchiatura = apparecchiatura;
-    }
-
-    public Azienda getAzienda() {
-        return azienda;
-    }
-
-    public void setAzienda(Azienda azienda) {
-        this.azienda = azienda;
-    }
-
-    public Apparecchiatura getRiferimento() {
-        return riferimento;
-    }
-
-    public void setRiferimento(Apparecchiatura riferimento) {
-        this.riferimento = riferimento;
     }
 
     public LocalDate getInizio() {
@@ -146,14 +122,6 @@ public class FuoriServizio extends AbstractEntity {
         this.utenteFine = utenteFine;
     }
 
-    public LocalDate getCertificatoIl() {
-        return certificatoIl;
-    }
-
-    public void setCertificatoIl(LocalDate certificatoIl) {
-        this.certificatoIl = certificatoIl;
-    }
-
     public Esito getEsito() {
         return esito;
     }
@@ -170,22 +138,6 @@ public class FuoriServizio extends AbstractEntity {
         this.descrizione = descrizione;
     }
 
-    public boolean isAccreditato() {
-        return accreditato;
-    }
-
-    public void setAccreditato(boolean accreditato) {
-        this.accreditato = accreditato;
-    }
-
-    public boolean isVerifica() {
-        return verifica;
-    }
-
-    public void setVerifica(boolean verifica) {
-        this.verifica = verifica;
-    }
-
     public Set<Documento> getDocumenti() {
         return documenti;
     }
@@ -193,7 +145,23 @@ public class FuoriServizio extends AbstractEntity {
     public void setDocumenti(Set<Documento> documenti) {
         this.documenti = documenti;
     }
-    
+
+    public FsTaratura getTaratura() {
+        return taratura;
+    }
+
+    public void setTaratura(FsTaratura taratura) {
+        this.taratura = taratura;
+    }
+
+    public FsManutenzione getManutenzione() {
+        return manutenzione;
+    }
+
+    public void setManutenzione(FsManutenzione manutenzione) {
+        this.manutenzione = manutenzione;
+    }
+
     @Override
     public String toString() {
         return descrizione;
