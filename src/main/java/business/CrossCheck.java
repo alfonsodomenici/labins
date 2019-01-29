@@ -1,4 +1,4 @@
-package business.validation;
+package business;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

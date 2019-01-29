@@ -5,6 +5,8 @@
  */
 package business.lab.entity;
 
+import business.CrossCheck;
+import business.ValidEntity;
 import java.time.LocalDate;
 import java.util.Set;
 import javax.persistence.Column;
@@ -25,7 +27,20 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "fuori_servizio")
-public class FuoriServizio extends AbstractEntity {
+@CrossCheck
+public class FuoriServizio extends AbstractEntity implements ValidEntity {
+
+    @Override
+    public boolean isValid() {
+        switch (motivo) {
+            case MANUTENZIONE:
+                return manutenzione != null && taratura == null;
+            case TARATURA:
+                return taratura != null && manutenzione == null;
+            default:
+                return manutenzione == null && taratura == null;
+        }
+    }
 
     public static enum Motivo {
         MANUTENZIONE, TARATURA, VERIFICA_INTERMEDIA, FS_STRAORDINARIO

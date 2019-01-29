@@ -1,4 +1,4 @@
-package business.validation;
+package business;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

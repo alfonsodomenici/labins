@@ -5,6 +5,8 @@
  */
 package business.lab.entity;
 
+import business.CrossCheck;
+import business.ValidEntity;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,7 +21,21 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "gestione_apparecchiatura")
-public class GestioneApparecchiatura extends BaseEntity {
+@CrossCheck
+public class GestioneApparecchiatura extends BaseEntity implements ValidEntity {
+
+    @Override
+    public boolean isValid() {
+        switch (tipo) {
+            case TEMPORALE:
+                return temporale != null && descrittiva == null;
+            case DESCRITTIVA:
+                return descrittiva != null && temporale == null;
+            default:
+                return temporale == null && descrittiva == null;
+        }
+
+    }
 
     public static enum Tipo {
         TEMPORALE, DESCRITTIVA, PRIMA_USO
@@ -27,16 +43,16 @@ public class GestioneApparecchiatura extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
-    
+
     @OneToOne
     private GestioneTemporale temporale;
-    
+
     @OneToOne
     private GestioneDescrittiva descrittiva;
-    
+
     @ManyToOne
     private Azienda azienda;
-    
+
     @Size(message = "Il campo attività può avere al max 255 caratteri")
     private String attivita;
 
@@ -79,7 +95,7 @@ public class GestioneApparecchiatura extends BaseEntity {
     public void setAttivita(String attivita) {
         this.attivita = attivita;
     }
-    
+
     @Override
     public String toString() {
         return tipo.toString();
