@@ -1,5 +1,6 @@
 package business;
 
+import javax.ejb.Stateless;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
@@ -9,7 +10,8 @@ import javax.ws.rs.core.Application;
  *
  * @author airhacks.com
  */
-@ApplicationPath("resources")
+@ApplicationPath("api")
+@Stateless
 public class JAXRSConfiguration extends Application {
 
 }
