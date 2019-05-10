@@ -36,10 +36,10 @@ public class Azienda extends BaseEntity {
     @Size(message = "Il campo note può avere al max 255 caratteri")
     private String note;
 
-    private boolean costruttore;
-    private boolean taratore;
-    private boolean manutentore;
-    private boolean distributore;
+    private boolean costruttore = false;
+    private boolean taratore = false;
+    private boolean manutentore = false;
+    private boolean distributore = false;
 
     public String getDenominazione() {
         return denominazione;
