@@ -49,8 +49,8 @@ public class ApparecchiaturaStore {
             Long idDistr,
             Long idMan,
             Long idTar,
-            int start,
-            int pageSize
+            Integer start,
+            Integer pageSize
     ) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Apparecchiatura> query = cb.createQuery(Apparecchiatura.class);
@@ -88,8 +88,8 @@ public class ApparecchiaturaStore {
                 .orderBy(cb.asc(root.get("id")));
 
         return em.createQuery(query)
-                .setFirstResult(start)
-                .setMaxResults(pageSize)
+                .setFirstResult(start == null ? 0 : start)
+                .setMaxResults(pageSize == null ? 10 : pageSize)
                 .getResultList();
     }
 

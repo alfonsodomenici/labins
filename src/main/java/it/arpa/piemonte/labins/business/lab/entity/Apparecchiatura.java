@@ -5,8 +5,14 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
+import it.arpa.piemonte.labins.business.lab.adapter.AziendaAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.CatenaMisuraAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.DominioAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaAdapter;
 import java.time.LocalDate;
 import java.util.Set;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -32,13 +38,16 @@ public class Apparecchiatura extends BaseEntity {
     @Column(nullable = false)
     private String descrizione;
 
+    @JsonbTypeAdapter(LaboratorioAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Laboratorio laboratorio;
 
+    @JsonbTypeAdapter(DominioAdapter.class)
     @ManyToOne
     private Dominio dominio;
 
+    @JsonbTypeAdapter(CatenaMisuraAdapter.class)
     @ManyToMany()
     @JoinTable(name = "apparecchiatura_catena_misura",
             joinColumns = @JoinColumn(name = "apparecchiatura_id", referencedColumnName = "id"),
@@ -46,18 +55,23 @@ public class Apparecchiatura extends BaseEntity {
     )
     private Set<CatenaMisura> cateneMisura;
 
+    @JsonbTypeAdapter(TipoApparecchiaturaAdapter.class)
     @ManyToOne
     private TipoApparecchiatura tipologia;
 
+    @JsonbTypeAdapter(AziendaAdapter.class)
     @ManyToOne
     private Azienda costruttore;
 
+    @JsonbTypeAdapter(AziendaAdapter.class)
     @ManyToOne
     private Azienda distributore;
 
+    @JsonbTypeAdapter(AziendaAdapter.class)
     @ManyToOne
     private Azienda taratore;
 
+    @JsonbTypeAdapter(AziendaAdapter.class)
     @ManyToOne
     private Azienda manutentore; //deve esserci ???
 
