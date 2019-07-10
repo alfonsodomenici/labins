@@ -41,6 +41,13 @@ public class Azienda extends BaseEntity {
     private boolean manutentore = false;
     private boolean distributore = false;
 
+    public Azienda() {
+    }
+
+    public Azienda(Long id) {
+        this.id = id;
+    }
+
     public String getDenominazione() {
         return denominazione;
     }

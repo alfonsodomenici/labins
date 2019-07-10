@@ -28,7 +28,7 @@ public class CateneMisuraAdapter implements JsonbAdapter<Set<CatenaMisura>, Json
 
     @Override
     public Set<CatenaMisura> adaptFromJson(JsonArray json) throws Exception {
-        TreeSet<CatenaMisura> result = new TreeSet<CatenaMisura>();
+        TreeSet<CatenaMisura> result = new TreeSet<>();
         json.forEach(e->{
             result.add(new CatenaMisura(new Long(e.toString())));
         });

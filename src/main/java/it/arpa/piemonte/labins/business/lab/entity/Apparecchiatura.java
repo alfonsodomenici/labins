@@ -5,15 +5,13 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
-import it.arpa.piemonte.labins.business.lab.adapter.AziendaAdapter;
-import it.arpa.piemonte.labins.business.lab.adapter.CatenaMisuraAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.CateneMisuraAdapter;
-import it.arpa.piemonte.labins.business.lab.adapter.DominioAdapter;
-import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioAdapter;
-import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.DominioLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaLinkAdapter;
 import java.time.LocalDate;
 import java.util.Set;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,12 +22,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import javax.ws.rs.core.Link;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -47,12 +39,12 @@ public class Apparecchiatura extends BaseEntity {
     @Column(nullable = false)
     private String descrizione;
 
-    @JsonbTypeAdapter(LaboratorioAdapter.class)
+    @JsonbTypeAdapter(LaboratorioLinkAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Laboratorio laboratorio;
 
-    //@JsonbTypeAdapter(DominioAdapter.class)
+    @JsonbTypeAdapter(DominioLinkAdapter.class)
     @ManyToOne
     private Dominio dominio;
 
@@ -64,23 +56,23 @@ public class Apparecchiatura extends BaseEntity {
     )
     private Set<CatenaMisura> cateneMisura;
 
-    @JsonbTypeAdapter(TipoApparecchiaturaAdapter.class)
+    @JsonbTypeAdapter(TipoApparecchiaturaLinkAdapter.class)
     @ManyToOne
     private TipoApparecchiatura tipologia;
 
-    //@JsonbTypeAdapter(AziendaAdapter.class)
+    @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne
     private Azienda costruttore;
 
-    //@JsonbTypeAdapter(AziendaAdapter.class)
+    @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne
     private Azienda distributore;
 
-    //@JsonbTypeAdapter(AziendaAdapter.class)
+    @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne
     private Azienda taratore;
 
-    //@JsonbTypeAdapter(AziendaAdapter.class)
+    @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne
     private Azienda manutentore; //deve esserci ???
 

@@ -5,12 +5,11 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
-import java.util.Set;
-import javax.json.bind.annotation.JsonbTransient;
+import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -28,8 +27,16 @@ public class Dominio extends BaseEntity {
     @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
 
+    @JsonbTypeAdapter(LaboratorioLinkAdapter.class)
     @ManyToOne
     private Laboratorio laboratorio;
+
+    public Dominio() {
+    }
+
+    public Dominio(Long id) {
+        this.id = id;
+    }
 
     public String getDenominazione() {
         return denominazione;
