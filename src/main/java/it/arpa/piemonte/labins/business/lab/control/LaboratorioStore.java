@@ -5,8 +5,11 @@
  */
 package it.arpa.piemonte.labins.business.lab.control;
 
+import it.arpa.piemonte.labins.business.lab.boundary.AziendaLink;
+import it.arpa.piemonte.labins.business.lab.boundary.LaboratorioLink;
 import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,4 +43,7 @@ public class LaboratorioStore {
                 .getResultList();
     }
     
+     public List<LaboratorioLink> allLink() {
+        return all().stream().map(LaboratorioLink::new).collect(Collectors.toList());
+    }
 }

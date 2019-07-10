@@ -37,6 +37,13 @@ public class TipoApparecchiatura extends AbstractEntity {
     @ManyToOne
     private Laboratorio laboratorio;
 
+    public TipoApparecchiatura() {
+    }
+
+    public TipoApparecchiatura(Long id) {
+        this.id = id;
+    }
+    
     public String getCodice() {
         return codice;
     }

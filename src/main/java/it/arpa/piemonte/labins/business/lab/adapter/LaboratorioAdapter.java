@@ -5,28 +5,24 @@
  */
 package it.arpa.piemonte.labins.business.lab.adapter;
 
-import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
 import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
-import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.adapter.JsonbAdapter;
 
 /**
  *
  * @author utente
  */
-public class LaboratorioAdapter implements JsonbAdapter<Laboratorio, Long> {
+public class LaboratorioAdapter implements JsonbAdapter<Laboratorio, JsonObject> {
 
-    //@Inject
-    //LaboratorioStore store;
-    
     @Override
-    public Long adaptToJson(Laboratorio e) throws Exception {
-        return e == null ? null :  e.getId();
+    public JsonObject adaptToJson(Laboratorio e) throws Exception {
+        return Json.createObjectBuilder().add("id", e.getId()).build();
     }
 
     @Override
-    public Laboratorio adaptFromJson(Long id) throws Exception {
-        return null;
-    }
-    
+    public Laboratorio adaptFromJson(JsonObject obj) throws Exception {
+        return new Laboratorio(new Long(obj.getInt("id")));
+    }    
 }

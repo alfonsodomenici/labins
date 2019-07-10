@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -37,6 +38,9 @@ public class AziendeResource {
     @Context
     ResourceContext resource;
 
+    @Context
+    UriInfo uriInfo;
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public Response create(Azienda e, @Context UriInfo uriInfo) {
@@ -47,8 +51,12 @@ public class AziendeResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Azienda> all() {
-        return store.all();
+    public Aziende all() {
+        List<AziendaLink> db = store.allLink();
+        Aziende aziende = new Aziende(db);
+        aziende.link = Link.fromUri(uriInfo.getPath()).rel("uri").build();
+        db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
+        return aziende;
     }
 
     @GET
@@ -65,7 +73,7 @@ public class AziendeResource {
         e.setId(id);
         return store.save(e);
     }
-    
+
     @DELETE
     @Path("{id}")
     public void delete(@PathParam("id") Long id) {

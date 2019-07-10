@@ -23,6 +23,14 @@ import javax.validation.constraints.Size;
 @Table(name = "catena_misura")
 public class CatenaMisura extends BaseEntity {
 
+    public CatenaMisura() {
+    }
+
+    public CatenaMisura(Long id) {
+        this.id = id;
+    }
+
+
     @NotEmpty(message = "Il campo denominazione è obbligatorio")
     @Column(nullable = false)
     @Size(message = "Il campo denominazione può avere al max 255 caratteri")
@@ -30,10 +38,6 @@ public class CatenaMisura extends BaseEntity {
 
     @ManyToOne
     private Dominio dominio;
-
-    @ManyToMany(mappedBy = "cateneMisura")
-    @JsonbTransient
-    private Set<Apparecchiatura> apparecchiature;
 
     public String getDenominazione() {
         return denominazione;
@@ -49,14 +53,6 @@ public class CatenaMisura extends BaseEntity {
 
     public void setDominio(Dominio dominio) {
         this.dominio = dominio;
-    }
-
-    public Set<Apparecchiatura> getApparecchiature() {
-        return apparecchiature;
-    }
-
-    public void setApparecchiature(Set<Apparecchiatura> apparecchiature) {
-        this.apparecchiature = apparecchiature;
     }
 
     @Override

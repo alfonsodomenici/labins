@@ -5,11 +5,8 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
-import java.util.Set;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -27,28 +24,19 @@ public class Laboratorio extends BaseEntity {
     @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
 
-    @OneToMany(mappedBy = "laboratorio")
-    @JsonbTransient
-    private Set<Dominio> domini;
+    public Laboratorio() {
+    }
 
-    @OneToMany(mappedBy = "laboratorio")
-    @JsonbTransient
-    private Set<TipoApparecchiatura> tipiApparecchiatura;
-    
+    public Laboratorio(Long id) {
+        this.id = id;
+    }
+
     public String getDenominazione() {
         return denominazione;
     }
 
     public void setDenominazione(String denominazione) {
         this.denominazione = denominazione;
-    }
-
-    public Set<Dominio> getDomini() {
-        return domini;
-    }
-
-    public void setDomini(Set<Dominio> domini) {
-        this.domini = domini;
     }
 
     @Override

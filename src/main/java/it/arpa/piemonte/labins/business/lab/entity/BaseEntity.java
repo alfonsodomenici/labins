@@ -6,6 +6,7 @@
 package it.arpa.piemonte.labins.business.lab.entity;
 
 import java.time.LocalDate;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Past;

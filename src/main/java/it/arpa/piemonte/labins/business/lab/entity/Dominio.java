@@ -31,10 +31,6 @@ public class Dominio extends BaseEntity {
     @ManyToOne
     private Laboratorio laboratorio;
 
-    @OneToMany(mappedBy = "dominio")
-    @JsonbTransient
-    private Set<CatenaMisura> cateneMisura;
-
     public String getDenominazione() {
         return denominazione;
     }
@@ -49,14 +45,6 @@ public class Dominio extends BaseEntity {
 
     public void setLaboratorio(Laboratorio laboratorio) {
         this.laboratorio = laboratorio;
-    }
-
-    public Set<CatenaMisura> getCateneMisura() {
-        return cateneMisura;
-    }
-
-    public void setCateneMisura(Set<CatenaMisura> cateneMisura) {
-        this.cateneMisura = cateneMisura;
     }
 
     @Override

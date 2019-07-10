@@ -5,8 +5,10 @@
  */
 package it.arpa.piemonte.labins.business.lab.control;
 
+import it.arpa.piemonte.labins.business.lab.boundary.AziendaLink;
 import it.arpa.piemonte.labins.business.lab.entity.Azienda;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,9 +37,13 @@ public class AziendaStore {
         return em.find(Azienda.class, id);
     }
 
-    public List<Azienda> all(){
+    public List<Azienda> all() {
         return em.createQuery("select e from Azienda e where e.nascosto=false order by e.denominazione", Azienda.class)
                 .getResultList();
     }
-    
+
+    public List<AziendaLink> allLink() {
+        return all().stream().map(AziendaLink::new).collect(Collectors.toList());
+    }
+
 }

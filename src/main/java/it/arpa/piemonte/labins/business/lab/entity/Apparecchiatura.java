@@ -7,6 +7,7 @@ package it.arpa.piemonte.labins.business.lab.entity;
 
 import it.arpa.piemonte.labins.business.lab.adapter.AziendaAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.CatenaMisuraAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.CateneMisuraAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.DominioAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaAdapter;
@@ -16,12 +17,19 @@ import javax.json.bind.annotation.JsonbTransient;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -39,8 +47,7 @@ public class Apparecchiatura extends BaseEntity {
     @Column(nullable = false)
     private String descrizione;
 
-    //@JsonbTypeAdapter(LaboratorioAdapter.class)
-    @JsonbTransient
+    @JsonbTypeAdapter(LaboratorioAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Laboratorio laboratorio;
@@ -49,15 +56,15 @@ public class Apparecchiatura extends BaseEntity {
     @ManyToOne
     private Dominio dominio;
 
-    @JsonbTypeAdapter(CatenaMisuraAdapter.class)
-    @ManyToMany()
+    @JsonbTypeAdapter(CateneMisuraAdapter.class)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "apparecchiatura_catena_misura",
             joinColumns = @JoinColumn(name = "apparecchiatura_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "catena_misura_id", referencedColumnName = "id")
     )
     private Set<CatenaMisura> cateneMisura;
 
-    //@JsonbTypeAdapter(TipoApparecchiaturaAdapter.class)
+    @JsonbTypeAdapter(TipoApparecchiaturaAdapter.class)
     @ManyToOne
     private TipoApparecchiatura tipologia;
 
@@ -120,7 +127,7 @@ public class Apparecchiatura extends BaseEntity {
     @JoinColumn(name = "gestione_manutenzione_id")
     private GestioneApparecchiatura gestioneManutenzione;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "apparecchiatura_documento",
             joinColumns = @JoinColumn(name = "apparecchiatura_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id")

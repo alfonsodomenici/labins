@@ -5,28 +5,27 @@
  */
 package it.arpa.piemonte.labins.business.lab.adapter;
 
-import it.arpa.piemonte.labins.business.lab.control.TipoApparecchiaturaStore;
 import it.arpa.piemonte.labins.business.lab.entity.TipoApparecchiatura;
-import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.adapter.JsonbAdapter;
 
 /**
  *
  * @author utente
  */
-public class TipoApparecchiaturaAdapter implements JsonbAdapter<TipoApparecchiatura, Long> {
+public class TipoApparecchiaturaAdapter implements JsonbAdapter<TipoApparecchiatura, JsonObject> {
 
-    @Inject
-    TipoApparecchiaturaStore store;
-    
     @Override
-    public Long adaptToJson(TipoApparecchiatura e) throws Exception {
-        return e == null ? null :  e.getId();
+    public JsonObject adaptToJson(TipoApparecchiatura e) throws Exception {
+         return Json.createObjectBuilder().add("id", e.getId()).build();
     }
 
     @Override
-    public TipoApparecchiatura adaptFromJson(Long id) throws Exception {
-        return id == null ? null : store.find(id);
+    public TipoApparecchiatura adaptFromJson(JsonObject json) throws Exception {
+        return json == null || json.isNull("id") ? null : new TipoApparecchiatura(new Long(json.getInt("id")));
     }
+
+  
     
 }

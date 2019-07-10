@@ -5,29 +5,27 @@
  */
 package it.arpa.piemonte.labins.business.lab.adapter;
 
-import it.arpa.piemonte.labins.business.lab.control.CatenaMisuraStore;
 import it.arpa.piemonte.labins.business.lab.entity.CatenaMisura;
-import it.arpa.piemonte.labins.business.lab.entity.CatenaMisura;
-import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.adapter.JsonbAdapter;
 
 /**
  *
  * @author utente
  */
-public class CatenaMisuraAdapter implements JsonbAdapter<CatenaMisura, Long> {
+public class CatenaMisuraAdapter implements JsonbAdapter<CatenaMisura, JsonObject> {
 
-    @Inject
-    CatenaMisuraStore store;
-    
     @Override
-    public Long adaptToJson(CatenaMisura e) throws Exception {
-        return e == null ? null :  e.getId();
+    public JsonObject adaptToJson(CatenaMisura e) throws Exception {
+        return Json.createObjectBuilder().add("id", e.getId()).build();
     }
 
     @Override
-    public CatenaMisura adaptFromJson(Long id) throws Exception {
-        return id == null ? null : store.find(id);
+    public CatenaMisura adaptFromJson(JsonObject e) throws Exception {
+        return e == null || e.isNull("id") ? null :  new CatenaMisura(new Long(e.getInt("id")));
     }
+
+
     
 }
