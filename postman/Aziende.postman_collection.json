@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "d82b4b43-28d8-4035-8c9b-323449559585",
+		"name": "Aziende",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"denominazione\": \"Arpa\",\n\t\"contatto\": \"Benedetto\",\n\t\"telefono\": \"0125123456\",\n\t\"email\": \"test@arpa.piemonte.it\",\n\t\"note\": \"note su Arpa\",\n\t\"taratore\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/aziende",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"aziende"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"denominazione\": \"Arpa\",\n\t\"contatto\": \"Benedetto\",\n\t\"telefono\": \"0125123456\",\n\t\"email\": \"test@arpa.piemonte.it\",\n\t\"note\": \"note su Arpa\",\n\t\"taratore\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/aziende/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"aziende",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/aziende",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"aziende"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

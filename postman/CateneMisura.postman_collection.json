@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "b4498195-9670-4790-b68f-34477ecc454c",
+		"name": "CateneMisura",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/laboratori/1/domini/9/catene/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"laboratori",
+						"1",
+						"domini",
+						"9",
+						"catene",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"denominazione\": \"catena1\",\n\t\"version\": 0\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/laboratori/1/domini/9/catene",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"laboratori",
+						"1",
+						"domini",
+						"9",
+						"catene"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"denominazione\": \"catena1 updated\",\n\t\"version\": 3,\n\t\"nascosto\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/laboratori/1/domini/9/catene/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"laboratori",
+						"1",
+						"domini",
+						"9",
+						"catene",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/labins/api/laboratori/1/domini/9/catene/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"labins",
+						"api",
+						"laboratori",
+						"1",
+						"domini",
+						"9",
+						"catene",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
