@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -57,22 +58,22 @@ public class ApparecchiaturaStore {
         Root<Apparecchiatura> root = query.from(Apparecchiatura.class);
         Predicate cond = cb.conjunction();
         if (idLab != null) {
-            cond = cb.and(cond, cb.equal(root.get("laboratorio.id"), idLab));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "laboratorio.id", Object.class), idLab));
         }
         if (idDom != null) {
-            cond = cb.and(cond, cb.equal(root.get("dominio.id"), idDom));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "dominio.id", Object.class), idDom));
         }
 
         if (idTipo != null) {
-            cond = cb.and(cond, cb.equal(root.get("tipologia.id"), idTipo));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "tipologia.id", Object.class), idTipo));
         }
 
         if (idAz != null) {
-            cond = cb.and(cond, cb.equal(root.get("costruttore.id"), idAz));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "costruttore.id", Object.class), idAz));
         }
 
         if (idDistr != null) {
-            cond = cb.and(cond, cb.equal(root.get("distributore.id"), idDistr));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "distributore.id", Object.class), idDistr));
         }
 
         if (idMan != null) {
@@ -80,7 +81,7 @@ public class ApparecchiaturaStore {
         }
 
         if (idTar != null) {
-            cond = cb.and(cond, cb.equal(root.get("taratore.id"), idTar));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "taratore.id", Object.class), idTar));
         }
 
         query.select(root)
@@ -91,6 +92,19 @@ public class ApparecchiaturaStore {
                 .setFirstResult(start == null ? 0 : start)
                 .setMaxResults(pageSize == null ? 10 : pageSize)
                 .getResultList();
+    }
+    
+     protected <E> Path<E> getPathExp(Root<Apparecchiatura> rq, String field, Class<E> clazz) {
+        if (field.indexOf('.') == -1) {
+            return rq.<E>get(field);
+        }
+
+        String[] fields = field.split("\\.");
+        Path<E> p = rq.<E>get(fields[0]);
+        for (int i = 1; i < fields.length; i++) {
+            p = p.get(fields[i]);
+        }
+        return p;
     }
 
 }

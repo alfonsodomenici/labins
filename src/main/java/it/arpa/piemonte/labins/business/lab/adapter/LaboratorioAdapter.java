@@ -16,8 +16,8 @@ import javax.json.bind.adapter.JsonbAdapter;
  */
 public class LaboratorioAdapter implements JsonbAdapter<Laboratorio, Long> {
 
-    @Inject
-    LaboratorioStore store;
+    //@Inject
+    //LaboratorioStore store;
     
     @Override
     public Long adaptToJson(Laboratorio e) throws Exception {
@@ -26,7 +26,7 @@ public class LaboratorioAdapter implements JsonbAdapter<Laboratorio, Long> {
 
     @Override
     public Laboratorio adaptFromJson(Long id) throws Exception {
-        return id == null ? null : store.find(id);
+        return null;
     }
     
 }
