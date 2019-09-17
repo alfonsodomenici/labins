@@ -20,6 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -35,9 +36,13 @@ public class ApparecchiatureResource {
 
     @Inject
     LaboratorioStore laboratorioStore;
-    
+
     @Context
     ResourceContext resource;
+
+    @Context
+    UriInfo uriInfo;
+
     private Long idLab;
 
     @POST
@@ -52,7 +57,7 @@ public class ApparecchiatureResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Apparecchiatura> search(
+    public Apparecchiature search(
             @QueryParam("idDom") Long idDom,
             @QueryParam("idTipo") Long idTipo,
             @QueryParam("idAz") Long idAz,
@@ -62,7 +67,11 @@ public class ApparecchiatureResource {
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
-        return store.search(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, start, pageSize);
+        List<ApparecchiaturaLink> db = store.searchLink(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, start, pageSize);
+        Apparecchiature apparecchiature = new Apparecchiature(db);
+        db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
+        apparecchiature.size = store.searchCount(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar);
+        return apparecchiature;
     }
 
     @Path("{id}")

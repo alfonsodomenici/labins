@@ -5,16 +5,15 @@
  */
 package it.arpa.piemonte.labins.business.lab.control;
 
+import it.arpa.piemonte.labins.business.lab.boundary.ApparecchiaturaLink;
 import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -23,7 +22,7 @@ import javax.persistence.criteria.Root;
  * @author utente
  */
 @Stateless
-public class ApparecchiaturaStore {
+public class ApparecchiaturaStore extends Store<Apparecchiatura> {
 
     @PersistenceContext(unitName = "pu")
     private EntityManager em;
@@ -42,20 +41,17 @@ public class ApparecchiaturaStore {
         return em.find(Apparecchiatura.class, id);
     }
 
-    public List<Apparecchiatura> search(
+    private Predicate searchPredicate(
+            CriteriaBuilder cb,
+            Root<Apparecchiatura> root,
             Long idLab,
             Long idDom,
             Long idTipo,
             Long idAz,
             Long idDistr,
             Long idMan,
-            Long idTar,
-            Integer start,
-            Integer pageSize
-    ) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Apparecchiatura> query = cb.createQuery(Apparecchiatura.class);
-        Root<Apparecchiatura> root = query.from(Apparecchiatura.class);
+            Long idTar) {
+
         Predicate cond = cb.conjunction();
         if (idLab != null) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "laboratorio.id", Object.class), idLab));
@@ -77,15 +73,33 @@ public class ApparecchiaturaStore {
         }
 
         if (idMan != null) {
-            cond = cb.and(cond, cb.equal(root.get("manutentore.id"), idMan));
+            cond = cb.and(cond, cb.equal(getPathExp(root, "manutentore.id", Object.class), idMan));
         }
 
         if (idTar != null) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "taratore.id", Object.class), idTar));
         }
 
+        return cond;
+    }
+
+    public List<Apparecchiatura> search(
+            Long idLab,
+            Long idDom,
+            Long idTipo,
+            Long idAz,
+            Long idDistr,
+            Long idMan,
+            Long idTar,
+            Integer start,
+            Integer pageSize
+    ) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Apparecchiatura> query = cb.createQuery(Apparecchiatura.class);
+        Root<Apparecchiatura> root = query.from(Apparecchiatura.class);
+
         query.select(root)
-                .where(cond)
+                .where(searchPredicate(cb, root, idLab, idDom, idTipo, idAz, idDistr, idMan, idTar))
                 .orderBy(cb.asc(root.get("id")));
 
         return em.createQuery(query)
@@ -93,18 +107,41 @@ public class ApparecchiaturaStore {
                 .setMaxResults(pageSize == null ? 10 : pageSize)
                 .getResultList();
     }
-    
-     protected <E> Path<E> getPathExp(Root<Apparecchiatura> rq, String field, Class<E> clazz) {
-        if (field.indexOf('.') == -1) {
-            return rq.<E>get(field);
-        }
 
-        String[] fields = field.split("\\.");
-        Path<E> p = rq.<E>get(fields[0]);
-        for (int i = 1; i < fields.length; i++) {
-            p = p.get(fields[i]);
-        }
-        return p;
+    public int searchCount(
+            Long idLab,
+            Long idDom,
+            Long idTipo,
+            Long idAz,
+            Long idDistr,
+            Long idMan,
+            Long idTar
+    ) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery query = cb.createQuery();
+        Root<Apparecchiatura> root = query.from(Apparecchiatura.class);
+
+        query.select(cb.count(root))
+                .where(searchPredicate(cb, root, idLab, idDom, idTipo, idAz, idDistr, idMan, idTar));
+
+        return ((Long) em.createQuery(query)
+                .getSingleResult()).intValue();
+
     }
 
+    public List<ApparecchiaturaLink> searchLink(
+            Long idLab,
+            Long idDom,
+            Long idTipo,
+            Long idAz,
+            Long idDistr,
+            Long idMan,
+            Long idTar,
+            Integer start,
+            Integer pageSize
+    ) {
+        return search(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, start, pageSize)
+                .stream().map(ApparecchiaturaLink::new)
+                .collect(Collectors.toList());
+    }
 }

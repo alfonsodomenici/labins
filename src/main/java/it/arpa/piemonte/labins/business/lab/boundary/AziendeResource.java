@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
@@ -51,11 +52,15 @@ public class AziendeResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Aziende all() {
-        List<AziendaLink> db = store.allLink();
+    public Aziende search(
+            @QueryParam("tipo") String tipo,
+            @QueryParam("start") Integer start,
+            @QueryParam("page-size") Integer pageSize) {
+        List<AziendaLink> db = store.searchLink(tipo, start, pageSize);
         Aziende aziende = new Aziende(db);
         aziende.link = Link.fromUri(uriInfo.getPath()).rel("uri").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
+        aziende.size = store.searchCount(tipo);
         return aziende;
     }
 

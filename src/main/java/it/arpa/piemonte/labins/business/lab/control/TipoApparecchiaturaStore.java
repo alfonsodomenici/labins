@@ -34,8 +34,9 @@ public class TipoApparecchiaturaStore {
         return em.find(TipoApparecchiatura.class, id);
     }
 
-    public List<TipoApparecchiatura> all(){
-        return em.createQuery("select e from TipoApparecchiatura e order by e.codice", TipoApparecchiatura.class)
+    public List<TipoApparecchiatura> all(Long idLab){
+        return em.createQuery("select e from TipoApparecchiatura e where e.laboratorio.id= :idLab order by e.codice", TipoApparecchiatura.class)
+                .setParameter("idLab", idLab)
                 .getResultList();
     }
     
