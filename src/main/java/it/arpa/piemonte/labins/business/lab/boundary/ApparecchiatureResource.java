@@ -67,6 +67,7 @@ public class ApparecchiatureResource {
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
+        System.out.println("idCostruttore: " + idAz);
         List<ApparecchiaturaLink> db = store.searchLink(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, start, pageSize);
         Apparecchiature apparecchiature = new Apparecchiature(db);
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());

@@ -53,30 +53,30 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
             Long idTar) {
 
         Predicate cond = cb.conjunction();
-        if (idLab != null) {
+        if (idLab != null && idLab !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "laboratorio.id", Object.class), idLab));
         }
-        if (idDom != null) {
+        if (idDom != null && idDom !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "dominio.id", Object.class), idDom));
         }
 
-        if (idTipo != null) {
+        if (idTipo != null && idTipo !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "tipologia.id", Object.class), idTipo));
         }
 
-        if (idAz != null) {
+        if (idAz != null && idAz !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "costruttore.id", Object.class), idAz));
         }
 
-        if (idDistr != null) {
+        if (idDistr != null && idDistr !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "distributore.id", Object.class), idDistr));
         }
 
-        if (idMan != null) {
+        if (idMan != null && idMan !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "manutentore.id", Object.class), idMan));
         }
 
-        if (idTar != null) {
+        if (idTar != null && idTar !=-1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "taratore.id", Object.class), idTar));
         }
 

@@ -64,6 +64,8 @@ public class AziendaStore extends Store {
                 case "distributore":
                     cond = cb.and(cond, cb.equal(root.get("distributore"), true));
                     break;
+                default:
+                    cond = cb.and(cond, cb.equal(root.get("id"), -1));
             }
         }
         return cond;

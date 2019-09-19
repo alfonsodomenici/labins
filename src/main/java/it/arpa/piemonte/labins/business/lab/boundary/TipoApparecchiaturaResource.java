@@ -5,15 +5,17 @@
  */
 package it.arpa.piemonte.labins.business.lab.boundary;
 
+import it.arpa.piemonte.labins.business.lab.control.DominioStore;
 import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
-import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
+import it.arpa.piemonte.labins.business.lab.control.TipoApparecchiaturaStore;
+import it.arpa.piemonte.labins.business.lab.entity.Dominio;
+import it.arpa.piemonte.labins.business.lab.entity.TipoApparecchiatura;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
@@ -23,27 +25,32 @@ import javax.ws.rs.core.MediaType;
  *
  * @author utente
  */
-public class LaboratorioResource {
+public class TipoApparecchiaturaResource {
 
     @Inject
-    LaboratorioStore store;
+    LaboratorioStore labStore;
+    
+    @Inject
+    TipoApparecchiaturaStore store;
 
     @Context
     ResourceContext resource;
 
     private Long id;
-
+    private Long idLab;
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Laboratorio find() {
+    public TipoApparecchiatura find() {
         return store.find(id);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Laboratorio update(Laboratorio e) {
+    public TipoApparecchiatura update(TipoApparecchiatura e) {
         e.setId(id);
+        e.setLaboratorio(labStore.find(idLab));
         //TODO se non esiste id non inserire
         return store.save(e);
     }
@@ -53,33 +60,13 @@ public class LaboratorioResource {
         store.remove(id);
     }
 
-    @Path("apparecchiature")
-    public ApparecchiatureResource apparecchiature() {
-        ApparecchiatureResource sub = resource.getResource(ApparecchiatureResource.class);
-        sub.setIdLab(id);
-        return sub;
-    }
-
-    @Path("domini")
-    public DominiResource domini() {
-        DominiResource sub = resource.getResource(DominiResource.class);
-        sub.setIdLab(id);
-        return sub;
-    }
-    
-    @Path("tipi-apparecchiatura")
-    public TipiApparecchiaturaResource tipiApparecchiatura() {
-        TipiApparecchiaturaResource sub = resource.getResource(TipiApparecchiaturaResource.class);
-        sub.setIdLab(id);
-        return sub;
-    }
-    
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public void setIdLab(Long idLab) {
+        this.idLab = idLab;
+    }
+
+    
 }
