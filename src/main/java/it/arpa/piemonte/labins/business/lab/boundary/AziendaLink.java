@@ -12,17 +12,26 @@ import javax.ws.rs.core.Link;
  *
  * @author alfonso
  */
+
 public class AziendaLink {
 
     public Long id;
-    
+    public boolean costruttore,distributore,manutentore,taratore;
     public Link link;
 
     public String denominazione;
+
+    public AziendaLink() {
+    }
+    
     
     public AziendaLink(Azienda e) {
         this.id = e.getId();
+        this.costruttore = e.isCostruttore();
+        this.distributore = e.isDistributore();
+        this.manutentore = e.isManutentore();
+        this.taratore = e.isTaratore();
         this.denominazione = e.getDenominazione();
     }
-
+    
 }

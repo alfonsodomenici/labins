@@ -6,23 +6,35 @@
 package it.arpa.piemonte.labins.business.lab.adapter;
 
 import it.arpa.piemonte.labins.business.lab.boundary.DominioLink;
+import it.arpa.piemonte.labins.business.lab.control.DominioStore;
 import it.arpa.piemonte.labins.business.lab.entity.Dominio;
+import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.adapter.JsonbAdapter;
 
 /**
  *
  * @author utente
  */
-public class DominioLinkAdapter implements JsonbAdapter<Dominio, DominioLink> {
+public class DominioLinkAdapter implements JsonbAdapter<Dominio, JsonObject> {
+
+    @Inject
+    DominioStore store;
 
     @Override
-    public DominioLink adaptToJson(Dominio obj) throws Exception {
-        return new DominioLink(obj);
+    public JsonObject adaptToJson(Dominio obj) throws Exception {
+        return Json.createObjectBuilder()
+                .add("id", obj.getId())
+                .add("denominazione", obj.getDenominazione())
+                .build();
     }
 
     @Override
-    public Dominio adaptFromJson(DominioLink obj) throws Exception {
-        return new Dominio(obj.id);
+    public Dominio adaptFromJson(JsonObject obj) throws Exception {
+        System.out.println("json object -> " + obj);
+        System.out.println(store == null);
+        return store.find(new Long(obj.getInt("id")));
     }
-    
+
 }

@@ -5,9 +5,11 @@
  */
 package it.arpa.piemonte.labins.business.lab.adapter;
 
+import it.arpa.piemonte.labins.business.lab.control.CatenaMisuraStore;
 import it.arpa.piemonte.labins.business.lab.entity.CatenaMisura;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -19,6 +21,9 @@ import javax.json.bind.adapter.JsonbAdapter;
  */
 public class CateneMisuraAdapter implements JsonbAdapter<Set<CatenaMisura>, JsonArray> {
 
+    @Inject
+    CatenaMisuraStore store;
+    
     @Override
     public JsonArray adaptToJson(Set<CatenaMisura> list) throws Exception {
         JsonArrayBuilder builder = Json.createArrayBuilder();
@@ -30,7 +35,7 @@ public class CateneMisuraAdapter implements JsonbAdapter<Set<CatenaMisura>, Json
     public Set<CatenaMisura> adaptFromJson(JsonArray json) throws Exception {
         TreeSet<CatenaMisura> result = new TreeSet<>();
         json.forEach(e->{
-            result.add(new CatenaMisura(new Long(e.toString())));
+            result.add(store.find(new Long(e.toString())));
         });
         return result;
     }

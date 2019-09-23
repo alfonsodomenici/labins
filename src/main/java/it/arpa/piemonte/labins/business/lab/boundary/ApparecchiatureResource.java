@@ -48,7 +48,7 @@ public class ApparecchiatureResource {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response create(Apparecchiatura e, @Context UriInfo uriInfo) {
-        System.out.println("crete...");
+        System.out.println("create...");
         e.setLaboratorio(laboratorioStore.find(idLab));
         Apparecchiatura saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();

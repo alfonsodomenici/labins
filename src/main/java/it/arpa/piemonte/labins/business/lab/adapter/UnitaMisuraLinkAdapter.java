@@ -5,8 +5,8 @@
  */
 package it.arpa.piemonte.labins.business.lab.adapter;
 
-import it.arpa.piemonte.labins.business.lab.control.AziendaStore;
-import it.arpa.piemonte.labins.business.lab.entity.Azienda;
+import it.arpa.piemonte.labins.business.lab.control.UnitaMisuraStore;
+import it.arpa.piemonte.labins.business.lab.entity.UnitaMisura;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -16,13 +16,13 @@ import javax.json.bind.adapter.JsonbAdapter;
  *
  * @author utente
  */
-public class AziendaLinkAdapter implements JsonbAdapter<Azienda, JsonObject> {
+public class UnitaMisuraLinkAdapter implements JsonbAdapter<UnitaMisura, JsonObject> {
 
     @Inject
-    AziendaStore store;
+    UnitaMisuraStore store;
 
     @Override
-    public JsonObject adaptToJson(Azienda obj) throws Exception {
+    public JsonObject adaptToJson(UnitaMisura obj) throws Exception {
         return Json.createObjectBuilder()
                 .add("id", obj.getId())
                 .add("denominazione", obj.getDenominazione())
@@ -30,7 +30,7 @@ public class AziendaLinkAdapter implements JsonbAdapter<Azienda, JsonObject> {
     }
 
     @Override
-    public Azienda adaptFromJson(JsonObject obj) throws Exception {
+    public UnitaMisura adaptFromJson(JsonObject obj) throws Exception {
         System.out.println("json object -> " + obj);
         System.out.println(store == null);
         return store.find(new Long(obj.getInt("id")));

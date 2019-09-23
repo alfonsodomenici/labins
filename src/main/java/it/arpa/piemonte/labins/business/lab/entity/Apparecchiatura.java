@@ -6,10 +6,13 @@
 package it.arpa.piemonte.labins.business.lab.entity;
 
 import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.CateneMisuraAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.DominioLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.GrandezzaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.UnitaMisuraLinkAdapter;
 import java.time.LocalDate;
 import java.util.Set;
 import javax.json.bind.annotation.JsonbTypeAdapter;
@@ -82,17 +85,19 @@ public class Apparecchiatura extends BaseEntity {
 
     private boolean riferimento;
 
+    @JsonbTypeAdapter(GrandezzaLinkAdapter.class)
     @ManyToOne
     private Grandezza grandezza;
 
+    @JsonbTypeAdapter(UnitaMisuraLinkAdapter.class)
     @ManyToOne
     private UnitaMisura um;
 
     @Column(name = "campo_min")
-    private double campoMin;
+    private Double campoMin;
 
     @Column(name = "campo_max")
-    private double campoMax;
+    private Double campoMax;
 
     private String incertezza;
 
@@ -242,15 +247,15 @@ public class Apparecchiatura extends BaseEntity {
         return campoMin;
     }
 
-    public void setCampoMin(double campoMin) {
+    public void setCampoMin(Double campoMin) {
         this.campoMin = campoMin;
     }
 
-    public double getCampoMax() {
+    public Double getCampoMax() {
         return campoMax;
     }
 
-    public void setCampoMax(double campoMax) {
+    public void setCampoMax(Double campoMax) {
         this.campoMax = campoMax;
     }
 
