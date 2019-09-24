@@ -38,6 +38,7 @@ public class ApparecchiaturaResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Apparecchiatura update(Apparecchiatura p) {
         p.setId(id);
         p.setLaboratorio(labStore.find(idLab));
@@ -47,6 +48,7 @@ public class ApparecchiaturaResource {
 
     @DELETE
     public void remove() {
+        System.out.println("remove apparecchiatura...");
         store.remove(id);
     }
     

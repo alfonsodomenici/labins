@@ -50,33 +50,37 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
             Long idAz,
             Long idDistr,
             Long idMan,
-            Long idTar) {
+            Long idTar,
+            Boolean nascosto) {
 
         Predicate cond = cb.conjunction();
-        if (idLab != null && idLab !=-1) {
+
+        cond = cb.and(cond, cb.equal(root.get("nascosto"), nascosto == null ? false : nascosto));
+
+        if (idLab != null && idLab != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "laboratorio.id", Object.class), idLab));
         }
-        if (idDom != null && idDom !=-1) {
+        if (idDom != null && idDom != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "dominio.id", Object.class), idDom));
         }
 
-        if (idTipo != null && idTipo !=-1) {
+        if (idTipo != null && idTipo != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "tipologia.id", Object.class), idTipo));
         }
 
-        if (idAz != null && idAz !=-1) {
+        if (idAz != null && idAz != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "costruttore.id", Object.class), idAz));
         }
 
-        if (idDistr != null && idDistr !=-1) {
+        if (idDistr != null && idDistr != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "distributore.id", Object.class), idDistr));
         }
 
-        if (idMan != null && idMan !=-1) {
+        if (idMan != null && idMan != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "manutentore.id", Object.class), idMan));
         }
 
-        if (idTar != null && idTar !=-1) {
+        if (idTar != null && idTar != -1) {
             cond = cb.and(cond, cb.equal(getPathExp(root, "taratore.id", Object.class), idTar));
         }
 
@@ -91,6 +95,7 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
             Long idDistr,
             Long idMan,
             Long idTar,
+            Boolean nascosto,
             Integer start,
             Integer pageSize
     ) {
@@ -99,7 +104,7 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
         Root<Apparecchiatura> root = query.from(Apparecchiatura.class);
 
         query.select(root)
-                .where(searchPredicate(cb, root, idLab, idDom, idTipo, idAz, idDistr, idMan, idTar))
+                .where(searchPredicate(cb, root, idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto))
                 .orderBy(cb.asc(root.get("id")));
 
         return em.createQuery(query)
@@ -115,14 +120,15 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
             Long idAz,
             Long idDistr,
             Long idMan,
-            Long idTar
+            Long idTar,
+            Boolean nascosto
     ) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery query = cb.createQuery();
         Root<Apparecchiatura> root = query.from(Apparecchiatura.class);
 
         query.select(cb.count(root))
-                .where(searchPredicate(cb, root, idLab, idDom, idTipo, idAz, idDistr, idMan, idTar));
+                .where(searchPredicate(cb, root, idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto));
 
         return ((Long) em.createQuery(query)
                 .getSingleResult()).intValue();
@@ -137,10 +143,11 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
             Long idDistr,
             Long idMan,
             Long idTar,
+            Boolean nascosto,
             Integer start,
             Integer pageSize
     ) {
-        return search(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, start, pageSize)
+        return search(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto, start, pageSize)
                 .stream().map(ApparecchiaturaLink::new)
                 .collect(Collectors.toList());
     }

@@ -64,14 +64,15 @@ public class ApparecchiatureResource {
             @QueryParam("idDistr") Long idDistr,
             @QueryParam("idMan") Long idMan,
             @QueryParam("idTar") Long idTar,
+            @QueryParam("nascosto") Boolean nascosto,
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
         System.out.println("idCostruttore: " + idAz);
-        List<ApparecchiaturaLink> db = store.searchLink(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, start, pageSize);
+        List<ApparecchiaturaLink> db = store.searchLink(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto, start, pageSize);
         Apparecchiature apparecchiature = new Apparecchiature(db);
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        apparecchiature.size = store.searchCount(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar);
+        apparecchiature.size = store.searchCount(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto);
         return apparecchiature;
     }
 
