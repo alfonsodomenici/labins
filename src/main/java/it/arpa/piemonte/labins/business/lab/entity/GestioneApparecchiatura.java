@@ -7,6 +7,11 @@ package it.arpa.piemonte.labins.business.lab.entity;
 
 import it.arpa.piemonte.labins.business.CrossCheck;
 import it.arpa.piemonte.labins.business.ValidEntity;
+import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.TipoGestioneApparecchiaturaAdapter;
+import java.time.LocalDate;
+import javax.json.bind.annotation.JsonbTypeAdapter;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -28,11 +33,11 @@ public class GestioneApparecchiatura extends BaseEntity implements ValidEntity {
     public boolean isValid() {
         switch (tipo) {
             case TEMPORALE:
-                return temporale != null && descrittiva == null;
+                return freq != null && freq > 0;
             case DESCRITTIVA:
-                return descrittiva != null && temporale == null;
+                return freq == null;
             default:
-                return temporale == null && descrittiva == null;
+                return freq == null;
         }
 
     }
@@ -41,15 +46,18 @@ public class GestioneApparecchiatura extends BaseEntity implements ValidEntity {
         TEMPORALE, DESCRITTIVA, PRIMA_USO
     }
 
+    @JsonbTypeAdapter(TipoGestioneApparecchiaturaAdapter.class)
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    @OneToOne
-    private GestioneTemporale temporale;
+    @Column(name = "data_pianificata")
+    private LocalDate dataPianificata;
 
-    @OneToOne
-    private GestioneDescrittiva descrittiva;
+    private Integer freq;
 
+    private String descrizione;
+
+    @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne
     private Azienda azienda;
 
@@ -62,22 +70,6 @@ public class GestioneApparecchiatura extends BaseEntity implements ValidEntity {
 
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
-    }
-
-    public GestioneTemporale getTemporale() {
-        return temporale;
-    }
-
-    public void setTemporale(GestioneTemporale temporale) {
-        this.temporale = temporale;
-    }
-
-    public GestioneDescrittiva getDescrittiva() {
-        return descrittiva;
-    }
-
-    public void setDescrittiva(GestioneDescrittiva descrittiva) {
-        this.descrittiva = descrittiva;
     }
 
     public Azienda getAzienda() {
@@ -94,6 +86,30 @@ public class GestioneApparecchiatura extends BaseEntity implements ValidEntity {
 
     public void setAttivita(String attivita) {
         this.attivita = attivita;
+    }
+
+    public LocalDate getDataPianificata() {
+        return dataPianificata;
+    }
+
+    public void setDataPianificata(LocalDate dataPianificata) {
+        this.dataPianificata = dataPianificata;
+    }
+
+    public Integer getFreq() {
+        return freq;
+    }
+
+    public void setFreq(Integer freq) {
+        this.freq = freq;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
     @Override

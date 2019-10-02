@@ -16,6 +16,7 @@ import it.arpa.piemonte.labins.business.lab.adapter.UnitaMisuraLinkAdapter;
 import java.time.LocalDate;
 import java.util.Set;
 import javax.json.bind.annotation.JsonbTypeAdapter;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -116,11 +117,17 @@ public class Apparecchiatura extends BaseEntity {
     @Column(name = "data_entrata_funzione")
     private LocalDate inFunzioneDal;
 
-    @ManyToOne
+    @Column(name = "data_pianificata")
+    private LocalDate dataPianificata;
+
+    private Boolean taratura = false;
+    private Boolean manutenzione = false;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "gestione_taratura_id")
     private GestioneApparecchiatura gestioneTaratura;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "gestione_manutenzione_id")
     private GestioneApparecchiatura gestioneManutenzione;
 
@@ -305,6 +312,30 @@ public class Apparecchiatura extends BaseEntity {
 
     public void setInFunzioneDal(LocalDate inFunzioneDal) {
         this.inFunzioneDal = inFunzioneDal;
+    }
+
+    public LocalDate getDataPianificata() {
+        return dataPianificata;
+    }
+
+    public void setDataPianificata(LocalDate dataPianificata) {
+        this.dataPianificata = dataPianificata;
+    }
+
+    public Boolean isTaratura() {
+        return taratura;
+    }
+
+    public void setTaratura(Boolean taratura) {
+        this.taratura = taratura;
+    }
+
+    public Boolean isManutenzione() {
+        return manutenzione;
+    }
+
+    public void setManutenzione(Boolean manutenzione) {
+        this.manutenzione = manutenzione;
     }
 
     public GestioneApparecchiatura getGestioneTaratura() {

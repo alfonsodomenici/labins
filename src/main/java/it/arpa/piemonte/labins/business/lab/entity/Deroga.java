@@ -28,7 +28,7 @@ public class Deroga extends BaseEntity {
     private String motivazione;
 
     @ManyToOne
-    private GestioneTemporale gestione;
+    private Apparecchiatura apparecchiatura;
 
     public LocalDate getDerogaScadenza() {
         return derogaScadenza;
@@ -46,12 +46,12 @@ public class Deroga extends BaseEntity {
         this.motivazione = motivazione;
     }
 
-    public GestioneTemporale getGestione() {
-        return gestione;
+    public Apparecchiatura getApparecchiatura() {
+        return apparecchiatura;
     }
 
-    public void setGestione(GestioneTemporale gestione) {
-        this.gestione = gestione;
+    public void setApparecchiatura(Apparecchiatura apparecchiatura) {
+        this.apparecchiatura = apparecchiatura;
     }
 
     @Override

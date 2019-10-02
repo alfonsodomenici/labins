@@ -18,9 +18,9 @@ public class AziendaLink {
     public Long id;
     public boolean costruttore,distributore,manutentore,taratore;
     public Link link;
-
     public String denominazione;
-
+    public String contatto,telefono,email,note;
+    
     public AziendaLink() {
     }
     
@@ -32,6 +32,10 @@ public class AziendaLink {
         this.manutentore = e.isManutentore();
         this.taratore = e.isTaratore();
         this.denominazione = e.getDenominazione();
+        this.contatto = e.getContatto();
+        this.telefono = e.getTelefono();
+        this.email = e.getEmail();
+        this.note = e.getNote();
     }
     
 }
