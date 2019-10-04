@@ -6,7 +6,6 @@
 package it.arpa.piemonte.labins.business.lab.boundary;
 
 import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
-import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
 import javax.ws.rs.core.Link;
 
 /**

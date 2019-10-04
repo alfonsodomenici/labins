@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.Consumes;
@@ -75,7 +74,7 @@ public class DocumentiResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Documento> allApparecchiatura(@PathParam("id") Long apparecchiatura_id,
             @QueryParam("usr") String usr) {
-        return store.findByApparecchiatura(apparecchiatura_id);
+        return store.search(apparecchiatura_id,null,null,null);
     }
     
     public String getMimeType(InputStream is) {

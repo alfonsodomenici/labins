@@ -6,14 +6,13 @@
 package it.arpa.piemonte.labins.business.lab.boundary;
 
 import it.arpa.piemonte.labins.business.lab.control.ApparecchiaturaStore;
-import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
-import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
+import it.arpa.piemonte.labins.business.lab.control.FuoriServizioStore;
+import it.arpa.piemonte.labins.business.lab.entity.FuoriServizio;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
@@ -24,63 +23,50 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author utente
  */
-public class ApparecchiaturaResource {
-    
+public class FuoriServizioResource {
+
     @Inject
-    ApparecchiaturaStore store;
+    ApparecchiaturaStore apparecchiaturaStore;
     @Inject
-    LaboratorioStore labStore;
-    
+    FuoriServizioStore store;
+
     @Context
     ResourceContext resource;
 
-    @Context UriInfo uriInfo;
+    @Context
+    UriInfo uriInfo;
     
-    private Long idLab;
+    private Long idApparecchiatura;
     private Long id;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Apparecchiatura find() {
+    public FuoriServizio find() {
         return store.find(id);
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Apparecchiatura update(Apparecchiatura p) {
+    public FuoriServizio update(FuoriServizio p) {
         p.setId(id);
-        p.setLaboratorio(labStore.find(idLab));
+        p.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
         //TODO se non esiste id non inserire
         return store.save(p);
     }
 
     @DELETE
     public void remove() {
-        System.out.println("remove apparecchiatura...");
+        System.out.println("remove fuori servizio...");
         store.remove(id);
     }
-    
-    @Path("fuori-servizi")
-    public FuoriServiziResource fuoriServizi() {
-        FuoriServiziResource sub = resource.getResource(FuoriServiziResource.class);
-        sub.setIdApparecchiatura(id);
-        return sub;
-    }
-    
-    @Path("documenti")
-    public DocumentiApparecchiaturaResource documenti() {
-        DocumentiApparecchiaturaResource sub = resource.getResource(DocumentiApparecchiaturaResource.class);
-        sub.setIdApparecchiatura(id);
-        return sub;
-    }
-    
-    public Long getIdLab() {
-        return idLab;
+
+    public Long getIdApparecchiatura() {
+        return idApparecchiatura;
     }
 
-    public void setIdLab(Long idLab) {
-        this.idLab = idLab;
+    public void setIdApparecchiatura(Long idApparecchiatura) {
+        this.idApparecchiatura = idApparecchiatura;
     }
 
     public Long getId() {
@@ -90,6 +76,5 @@ public class ApparecchiaturaResource {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
+
 }

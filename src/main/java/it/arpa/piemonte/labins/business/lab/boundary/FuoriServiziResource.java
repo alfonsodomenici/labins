@@ -6,8 +6,10 @@
 package it.arpa.piemonte.labins.business.lab.boundary;
 
 import it.arpa.piemonte.labins.business.lab.control.ApparecchiaturaStore;
+import it.arpa.piemonte.labins.business.lab.control.FuoriServizioStore;
 import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
 import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
+import it.arpa.piemonte.labins.business.lab.entity.FuoriServizio;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
@@ -29,13 +31,13 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author utente
  */
-public class ApparecchiatureResource {
+public class FuoriServiziResource {
 
     @Inject
-    ApparecchiaturaStore store;
+    FuoriServizioStore store;
 
     @Inject
-    LaboratorioStore laboratorioStore;
+    ApparecchiaturaStore apparecchiaturaStore;
 
     @Context
     ResourceContext resource;
@@ -43,52 +45,45 @@ public class ApparecchiatureResource {
     @Context
     UriInfo uriInfo;
 
-    private Long idLab;
+    private Long idApparecchiatura;
 
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response create(Apparecchiatura e, @Context UriInfo uriInfo) {
+    public Response create(FuoriServizio e, @Context UriInfo uriInfo) {
         System.out.println("create...");
-        e.setLaboratorio(laboratorioStore.find(idLab));
-        Apparecchiatura saved = store.save(e);
+        e.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
+        FuoriServizio saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
         return Response.status(Response.Status.CREATED).entity(uri.toString()).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Apparecchiature search(
-            @QueryParam("idDom") Long idDom,
-            @QueryParam("idTipo") Long idTipo,
-            @QueryParam("idAz") Long idAz,
-            @QueryParam("idDistr") Long idDistr,
-            @QueryParam("idMan") Long idMan,
-            @QueryParam("idTar") Long idTar,
-            @QueryParam("nascosto") Boolean nascosto,
+    public FuoriServizi search(
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
-        List<ApparecchiaturaLink> db = store.searchLink(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto, start, pageSize);
-        Apparecchiature apparecchiature = new Apparecchiature(db);
+        List<FuoriServizioLink> db = store.searchLink(idApparecchiatura, start, pageSize);
+        FuoriServizi fuoriServizi = new FuoriServizi(db);
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        apparecchiature.size = store.searchCount(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto);
-        return apparecchiature;
+        fuoriServizi.size = store.searchCount(idApparecchiatura);
+        return fuoriServizi;
     }
 
     @Path("{id}")
-    public ApparecchiaturaResource find(@PathParam("id") Long id) {
-        ApparecchiaturaResource sub = resource.getResource(ApparecchiaturaResource.class);
+    public FuoriServizioResource find(@PathParam("id") Long id) {
+        FuoriServizioResource sub = resource.getResource(FuoriServizioResource.class);
         sub.setId(id);
-        sub.setIdLab(idLab);
+        sub.setIdApparecchiatura(idApparecchiatura);
         return sub;
     }
 
-    public Long getIdLab() {
-        return idLab;
+    public Long getIdApparecchiatura() {
+        return idApparecchiatura;
     }
 
-    public void setIdLab(Long idLab) {
-        this.idLab = idLab;
+    public void setIdApparecchiatura(Long idApparecchiatura) {
+        this.idApparecchiatura = idApparecchiatura;
     }
 
 }
