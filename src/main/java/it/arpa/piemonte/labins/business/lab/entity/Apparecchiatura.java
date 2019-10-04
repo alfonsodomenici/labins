@@ -131,13 +131,6 @@ public class Apparecchiatura extends BaseEntity {
     @JoinColumn(name = "gestione_manutenzione_id")
     private GestioneApparecchiatura gestioneManutenzione;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "apparecchiatura_documento",
-            joinColumns = @JoinColumn(name = "apparecchiatura_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id")
-    )
-    private Set<Documento> documenti;
-
     public String getCodice() {
         return codice;
     }
@@ -352,14 +345,6 @@ public class Apparecchiatura extends BaseEntity {
 
     public void setGestioneManutenzione(GestioneApparecchiatura gestioneManutenzione) {
         this.gestioneManutenzione = gestioneManutenzione;
-    }
-
-    public Set<Documento> getDocumenti() {
-        return documenti;
-    }
-
-    public void setDocumenti(Set<Documento> documenti) {
-        this.documenti = documenti;
     }
 
     @Override

@@ -7,17 +7,16 @@ package it.arpa.piemonte.labins.business.lab.entity;
 
 import it.arpa.piemonte.labins.business.CrossCheck;
 import it.arpa.piemonte.labins.business.ValidEntity;
+import it.arpa.piemonte.labins.business.lab.adapter.ApparecchiaturaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import java.time.LocalDate;
-import java.util.Set;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -34,11 +33,11 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     public boolean isValid() {
         switch (motivo) {
             case MANUTENZIONE:
-                return manutenzione != null && taratura == null;
+                return true;
             case TARATURA:
-                return taratura != null && manutenzione == null;
+                return true;
             default:
-                return manutenzione == null && taratura == null;
+                return true;
         }
     }
 
@@ -53,6 +52,7 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     @Enumerated(EnumType.STRING)
     private Motivo motivo;
 
+    @JsonbTypeAdapter(ApparecchiaturaLinkAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Apparecchiatura apparecchiatura;
@@ -76,18 +76,24 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     @Column(length = 1024)
     private String descrizione;
 
-    @ManyToMany()
-    @JoinTable(name = "fuori_servizio_documento",
-            joinColumns = @JoinColumn(name = "fuori_servizio_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id")
-    )
-    private Set<Documento> documenti;
-
-    @OneToOne
-    private FsTaratura taratura;
-
-    @OneToOne
-    private FsManutenzione manutenzione;
+    @Column(name = "data_certificato")
+    private LocalDate certificatoIl;
+    private boolean accreditato;
+    
+    @JsonbTypeAdapter(AziendaLinkAdapter.class)
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private Azienda azienda;
+    
+    @JsonbTypeAdapter(ApparecchiaturaLinkAdapter.class)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "riferimento_id", nullable = false)
+    private Apparecchiatura riferimento;
+    
+    @Column(name = "necessaria_verifica")
+    private boolean necessariaVerifica;
+    @Column(name = "giorni_verifica")
+    private int giorniVerifica;
 
     public Motivo getMotivo() {
         return motivo;
@@ -153,28 +159,52 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
         this.descrizione = descrizione;
     }
 
-    public Set<Documento> getDocumenti() {
-        return documenti;
+    public LocalDate getCertificatoIl() {
+        return certificatoIl;
     }
 
-    public void setDocumenti(Set<Documento> documenti) {
-        this.documenti = documenti;
+    public void setCertificatoIl(LocalDate certificatoIl) {
+        this.certificatoIl = certificatoIl;
     }
 
-    public FsTaratura getTaratura() {
-        return taratura;
+    public boolean isAccreditato() {
+        return accreditato;
     }
 
-    public void setTaratura(FsTaratura taratura) {
-        this.taratura = taratura;
+    public void setAccreditato(boolean accreditato) {
+        this.accreditato = accreditato;
     }
 
-    public FsManutenzione getManutenzione() {
-        return manutenzione;
+    public Azienda getAzienda() {
+        return azienda;
     }
 
-    public void setManutenzione(FsManutenzione manutenzione) {
-        this.manutenzione = manutenzione;
+    public void setAzienda(Azienda azienda) {
+        this.azienda = azienda;
+    }
+
+    public Apparecchiatura getRiferimento() {
+        return riferimento;
+    }
+
+    public void setRiferimento(Apparecchiatura riferimento) {
+        this.riferimento = riferimento;
+    }
+
+    public boolean isNecessariaVerifica() {
+        return necessariaVerifica;
+    }
+
+    public void setNecessariaVerifica(boolean necessariaVerifica) {
+        this.necessariaVerifica = necessariaVerifica;
+    }
+
+    public int getGiorniVerifica() {
+        return giorniVerifica;
+    }
+
+    public void setGiorniVerifica(int giorniVerifica) {
+        this.giorniVerifica = giorniVerifica;
     }
 
     @Override

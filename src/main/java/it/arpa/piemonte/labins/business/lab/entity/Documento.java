@@ -5,10 +5,17 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
+import it.arpa.piemonte.labins.business.lab.adapter.ApparecchiaturaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.FuoriServizioLinkAdapter;
+import javax.json.bind.annotation.JsonbNillable;
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -29,7 +36,7 @@ public class Documento extends AbstractEntity {
     @Column(nullable = false)
     @Size(message = "Il campo denominazione può avere al max 255 caratteri")
     private String denominazione;
-    
+
     @NotEmpty(message = "Il campo file è obbligatorio")
     @Column(nullable = false)
     @Size(message = "Il campo file può avere al max 255 caratteri")
@@ -37,9 +44,18 @@ public class Documento extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
-    
+
     @Column(name = "media_type")
     private String mediaType;
+
+    
+    @JsonbTypeAdapter(ApparecchiaturaLinkAdapter.class)
+    @ManyToOne
+    private Apparecchiatura apparecchiatura;
+
+    @JsonbTypeAdapter(FuoriServizioLinkAdapter.class)
+    @ManyToOne
+    private FuoriServizio fs;
 
     public String getDenominazione() {
         return denominazione;
@@ -72,7 +88,23 @@ public class Documento extends AbstractEntity {
     public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
     }
-    
+
+    public Apparecchiatura getApparecchiatura() {
+        return apparecchiatura;
+    }
+
+    public void setApparecchiatura(Apparecchiatura apparecchiatura) {
+        this.apparecchiatura = apparecchiatura;
+    }
+
+    public FuoriServizio getFs() {
+        return fs;
+    }
+
+    public void setFs(FuoriServizio fs) {
+        this.fs = fs;
+    }
+
     @Override
     public String toString() {
         return denominazione;
