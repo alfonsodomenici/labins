@@ -8,6 +8,7 @@ package it.arpa.piemonte.labins.business.lab.entity;
 import it.arpa.piemonte.labins.business.lab.adapter.ApparecchiaturaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.FuoriServizioLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.TipoDocumentoLinkAdapter;
 import javax.json.bind.annotation.JsonbNillable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTypeAdapter;
@@ -42,6 +43,7 @@ public class Documento extends AbstractEntity {
     @Size(message = "Il campo file può avere al max 255 caratteri")
     private String file;
 
+    @JsonbTypeAdapter(TipoDocumentoLinkAdapter.class)
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
