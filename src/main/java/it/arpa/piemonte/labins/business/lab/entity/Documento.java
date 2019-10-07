@@ -6,11 +6,8 @@
 package it.arpa.piemonte.labins.business.lab.entity;
 
 import it.arpa.piemonte.labins.business.lab.adapter.ApparecchiaturaLinkAdapter;
-import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.FuoriServizioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.TipoDocumentoLinkAdapter;
-import javax.json.bind.annotation.JsonbNillable;
-import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
 import javax.persistence.Entity;

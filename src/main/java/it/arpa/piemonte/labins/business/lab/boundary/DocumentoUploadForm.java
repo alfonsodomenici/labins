@@ -17,7 +17,10 @@ public class DocumentoUploadForm {
     
     private byte[] fileData;
     private String fileName;
- 
+    private String denominazione;
+    private String mediaType;
+    private Integer tipo;
+    
     public String getFileName() {
         return fileName;
     }
@@ -36,4 +39,38 @@ public class DocumentoUploadForm {
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
     }
+
+    public String getDenominazione() {
+        return denominazione;
+    }
+
+    @FormParam("denominazione")
+    public void setDenominazione(String denominazione) {
+        this.denominazione = denominazione;
+    }
+
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    @FormParam("mediaType")
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    @FormParam("tipo")
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentoUploadForm{" + "fileData=" + fileData + ", fileName=" + fileName + ", denominazione=" + denominazione + ", mediaType=" + mediaType + ", tipo=" + tipo + '}';
+    }
+    
+    
 }

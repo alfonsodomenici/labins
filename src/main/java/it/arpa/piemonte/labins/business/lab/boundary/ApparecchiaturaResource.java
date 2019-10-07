@@ -18,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -25,17 +26,18 @@ import javax.ws.rs.core.UriInfo;
  * @author utente
  */
 public class ApparecchiaturaResource {
-    
+
     @Inject
     ApparecchiaturaStore store;
     @Inject
     LaboratorioStore labStore;
-    
+
     @Context
     ResourceContext resource;
 
-    @Context UriInfo uriInfo;
-    
+    @Context
+    UriInfo uriInfo;
+
     private Long idLab;
     private Long id;
 
@@ -56,25 +58,27 @@ public class ApparecchiaturaResource {
     }
 
     @DELETE
-    public void remove() {
-        System.out.println("remove apparecchiatura...");
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response remove(@Context UriInfo uriInfo) {
         store.remove(id);
+        return Response.ok("resource removed " + uriInfo.getAbsolutePathBuilder().build().toString())
+                .build();
     }
-    
+
     @Path("fuori-servizi")
     public FuoriServiziResource fuoriServizi() {
         FuoriServiziResource sub = resource.getResource(FuoriServiziResource.class);
         sub.setIdApparecchiatura(id);
         return sub;
     }
-    
+
     @Path("documenti")
     public DocumentiApparecchiaturaResource documenti() {
         DocumentiApparecchiaturaResource sub = resource.getResource(DocumentiApparecchiaturaResource.class);
         sub.setIdApparecchiatura(id);
         return sub;
     }
-    
+
     public Long getIdLab() {
         return idLab;
     }
@@ -90,6 +94,5 @@ public class ApparecchiaturaResource {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
+
 }

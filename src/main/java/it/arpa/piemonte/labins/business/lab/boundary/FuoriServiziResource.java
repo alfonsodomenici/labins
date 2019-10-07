@@ -50,7 +50,6 @@ public class FuoriServiziResource {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response create(FuoriServizio e, @Context UriInfo uriInfo) {
-        System.out.println("create...");
         e.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
         FuoriServizio saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();

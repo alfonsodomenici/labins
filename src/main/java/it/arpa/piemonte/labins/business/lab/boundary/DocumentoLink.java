@@ -17,12 +17,19 @@ public class DocumentoLink {
     public Long id;
     
     public Link link;
-
     public String denominazione;
+    public String file;
     
     public DocumentoLink(Documento e) {
         this.id = e.getId();
         this.denominazione = e.getDenominazione();
+        this.file = e.getFile();
     }
 
+    @Override
+    public String toString() {
+        return "DocumentoLink{" + "id=" + id + ", link=" + link + ", denominazione=" + denominazione + ", file=" + file + '}';
+    }
+
+    
 }

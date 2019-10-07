@@ -13,17 +13,21 @@ import javax.ws.rs.core.Link;
  * @author alfonso
  */
 public class Documenti {
-    
-    public  Integer size;
-    
+
+    public Integer size;
+
     public Link link;
-    
+
     public List<DocumentoLink> documenti;
 
     public Documenti(List<DocumentoLink> documenti) {
         this.size = documenti.size();
         this.documenti = documenti;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Documenti{" + "size=" + size + ", link=" + link + ", documenti=" + documenti + '}';
+    }
+
 }

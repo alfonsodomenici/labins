@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -35,7 +36,7 @@ public class FuoriServizioResource {
 
     @Context
     UriInfo uriInfo;
-    
+
     private Long idApparecchiatura;
     private Long id;
 
@@ -56,9 +57,11 @@ public class FuoriServizioResource {
     }
 
     @DELETE
-    public void remove() {
-        System.out.println("remove fuori servizio...");
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response remove(@Context UriInfo uriInfo) {
         store.remove(id);
+        return Response.ok("resource removed " + uriInfo.getAbsolutePathBuilder().build().toString())
+                .build();
     }
 
     public Long getIdApparecchiatura() {

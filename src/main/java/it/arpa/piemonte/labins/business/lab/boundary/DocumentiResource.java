@@ -50,7 +50,6 @@ public class DocumentiResource {
         tosave.setFile(form.getFileName());
         tosave.setTipo(Documento.Tipo.CERTIFICATO);
         Documento saved = store.save(tosave, new ByteArrayInputStream(form.getFileData()));
-        System.out.println("Done ");
         return Response.status(200)
                 .entity(Json.createObjectBuilder().add("id", saved.getId()).build()).build();
 
@@ -114,9 +113,6 @@ public class DocumentiResource {
                 tosave.setFile(fileName);
                 tosave.setTipo(Documento.Tipo.CERTIFICATO);
                 store.save(tosave, inputStream);
-
-                System.out.println("Done");
-
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }

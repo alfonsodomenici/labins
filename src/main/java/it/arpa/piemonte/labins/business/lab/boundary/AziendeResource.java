@@ -81,7 +81,10 @@ public class AziendeResource {
 
     @DELETE
     @Path("{id}")
-    public void delete(@PathParam("id") Long id) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response delete(@PathParam("id") Long id, @Context UriInfo uriInfo) {
         store.remove(id);
+        return Response.ok("resource removed " + uriInfo.getAbsolutePathBuilder().build().toString())
+                .build();
     }
 }

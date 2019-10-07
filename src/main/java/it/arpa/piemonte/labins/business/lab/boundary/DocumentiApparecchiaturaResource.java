@@ -12,7 +12,9 @@ import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -51,15 +53,21 @@ public class DocumentiApparecchiaturaResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@MultipartForm DocumentoUploadForm form, @Context UriInfo uriInfo) {
-        System.out.println("create...");
+        System.out.println("create documento " + form);
         Documento tosave = new Documento();
         tosave.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
-        tosave.setDenominazione(form.getFileName());
+        tosave.setDenominazione(form.getDenominazione());
         tosave.setFile(form.getFileName());
-        tosave.setTipo(Documento.Tipo.CERTIFICATO);
+        tosave.setTipo(Documento.Tipo.values()[form.getTipo()]);
+        tosave.setMediaType(form.getMediaType());
         Documento saved = store.save(tosave, new ByteArrayInputStream(form.getFileData()));
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
-        return Response.status(Response.Status.CREATED).entity(uri.toString()).build();
+        return Response.status(Response.Status.CREATED).entity(
+                Json.createObjectBuilder()
+                        .add("id", saved.getId())
+                        .add("uri", uri.toString())
+                        .build()
+        ).build();
     }
 
     @GET
@@ -68,6 +76,7 @@ public class DocumentiApparecchiaturaResource {
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
+        System.out.println("find documenti for apparecchiatura " + idApparecchiatura);
         List<DocumentoLink> db = store.searchLink(idApparecchiatura, null, start, pageSize);
         Documenti documenti = new Documenti(db);
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
@@ -94,7 +103,17 @@ public class DocumentiApparecchiaturaResource {
         response.header("Content-Type", "application/pdf");
         return response.build();
     }
-    
+
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response remove(@PathParam("id") Long id, @Context UriInfo uriInfo) {
+        System.out.println(String.format("remove documento %s for apparecchiatura %s", id, idApparecchiatura));
+        store.remove(id);
+        return Response.ok("resource removed " + uriInfo.getAbsolutePathBuilder().build().toString())
+                .build();
+    }
+
     public Long getIdApparecchiatura() {
         return idApparecchiatura;
     }
