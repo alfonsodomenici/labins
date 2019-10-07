@@ -8,11 +8,11 @@ package it.arpa.piemonte.labins.business.lab.boundary;
 import it.arpa.piemonte.labins.business.lab.control.ApparecchiaturaStore;
 import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
 import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -56,10 +56,17 @@ public class ApparecchiatureResource {
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
         return Response.status(Response.Status.CREATED).entity(
                 Json.createObjectBuilder()
-                .add("id", saved.getId())
-                .add("uri",uri.toString())
-                .build()
+                        .add("id", saved.getId())
+                        .add("uri", uri.toString())
+                        .build()
         ).build();
+    }
+
+    @GET
+    @Path("/riferimento")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonArray findDiRiferimento() {
+        return store.findDiRiferimentoAsJson(idLab);
     }
 
     @GET
@@ -77,6 +84,7 @@ public class ApparecchiatureResource {
     ) {
         List<ApparecchiaturaLink> db = store.searchLink(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto, start, pageSize);
         Apparecchiature apparecchiature = new Apparecchiature(db);
+        apparecchiature.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
         apparecchiature.size = store.searchCount(idLab, idDom, idTipo, idAz, idDistr, idMan, idTar, nascosto);
         return apparecchiature;

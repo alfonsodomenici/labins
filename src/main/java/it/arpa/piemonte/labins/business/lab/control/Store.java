@@ -5,6 +5,10 @@
  */
 package it.arpa.piemonte.labins.business.lab.control;
 
+import java.util.stream.Collector;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
@@ -12,9 +16,8 @@ import javax.persistence.criteria.Root;
  *
  * @author alfonso
  */
-
 public abstract class Store<K> {
-    
+
     protected <E> Path<E> getPathExp(Root<K> rq, String field, Class<E> clazz) {
         if (field.indexOf('.') == -1) {
             return rq.<E>get(field);
@@ -27,5 +30,12 @@ public abstract class Store<K> {
         }
         return p;
     }
-    
+
+    protected Collector<JsonObject, ?, JsonArrayBuilder> jsonCollector
+            = Collector.of(Json::createArrayBuilder, JsonArrayBuilder::add,
+                    (left, right) -> {
+                        left.add(right);
+                        return left;
+                    });
+
 }

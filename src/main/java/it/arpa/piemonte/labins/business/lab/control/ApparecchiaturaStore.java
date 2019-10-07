@@ -10,6 +10,9 @@ import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -39,6 +42,19 @@ public class ApparecchiaturaStore extends Store<Apparecchiatura> {
 
     public Apparecchiatura find(Long id) {
         return em.find(Apparecchiatura.class, id);
+    }
+
+    public List<Apparecchiatura> findDiRiferimento(Long idLab) {
+        return em.createNamedQuery(Apparecchiatura.FIND_DI_RIFERIMENTO)
+                .setParameter("idLab", idLab)
+                .getResultList();
+    }
+
+    public JsonArray findDiRiferimentoAsJson(Long idLab) {
+        return findDiRiferimento(idLab).stream()
+                .map(Apparecchiatura::convertMinimal)
+                .collect(jsonCollector)
+                .build();
     }
 
     private Predicate searchPredicate(

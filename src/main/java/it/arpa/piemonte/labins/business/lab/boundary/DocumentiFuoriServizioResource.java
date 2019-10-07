@@ -7,6 +7,7 @@ package it.arpa.piemonte.labins.business.lab.boundary;
 
 import it.arpa.piemonte.labins.business.lab.control.ApparecchiaturaStore;
 import it.arpa.piemonte.labins.business.lab.control.DocumentoStore;
+import it.arpa.piemonte.labins.business.lab.control.FuoriServizioStore;
 import it.arpa.piemonte.labins.business.lab.entity.Documento;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
@@ -33,13 +34,13 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
  *
  * @author utente
  */
-public class DocumentiApparecchiaturaResource {
+public class DocumentiFuoriServizioResource {
 
     @Inject
     DocumentoStore store;
 
     @Inject
-    ApparecchiaturaStore apparecchiaturaStore;
+    FuoriServizioStore fsStore;
 
     @Context
     ResourceContext resource;
@@ -47,7 +48,7 @@ public class DocumentiApparecchiaturaResource {
     @Context
     UriInfo uriInfo;
 
-    private Long idApparecchiatura;
+    private Long idFuoriServizio;
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -55,7 +56,7 @@ public class DocumentiApparecchiaturaResource {
     public Response create(@MultipartForm DocumentoUploadForm form, @Context UriInfo uriInfo) {
         System.out.println("create documento " + form);
         Documento tosave = new Documento();
-        tosave.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
+        tosave.setFs(fsStore.find(idFuoriServizio));
         tosave.setDenominazione(form.getDenominazione());
         tosave.setFile(form.getFileName());
         tosave.setTipo(Documento.Tipo.values()[form.getTipo()]);
@@ -76,12 +77,12 @@ public class DocumentiApparecchiaturaResource {
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
-        System.out.println("find documenti for apparecchiatura " + idApparecchiatura);
-        List<DocumentoLink> db = store.searchLink(idApparecchiatura, null, start, pageSize);
+        System.out.println("find documenti for apparecchiatura " + idFuoriServizio);
+        List<DocumentoLink> db = store.searchLink(idFuoriServizio, null, start, pageSize);
         Documenti documenti = new Documenti(db);
         documenti.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        documenti.size = store.searchCount(idApparecchiatura, null);
+        documenti.size = store.searchCount(idFuoriServizio, null);
         return documenti;
     }
 
@@ -109,18 +110,18 @@ public class DocumentiApparecchiaturaResource {
     @Path("{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public Response remove(@PathParam("id") Long id, @Context UriInfo uriInfo) {
-        System.out.println(String.format("remove documento %s for apparecchiatura %s", id, idApparecchiatura));
+        System.out.println(String.format("remove documento %s for fuori servizio %s", id, idFuoriServizio));
         store.remove(id);
         return Response.ok("resource removed " + uriInfo.getAbsolutePathBuilder().build().toString())
                 .build();
     }
 
-    public Long getIdApparecchiatura() {
-        return idApparecchiatura;
+    public Long getIdFuoriServizio() {
+        return idFuoriServizio;
     }
 
-    public void setIdApparecchiatura(Long idApparecchiatura) {
-        this.idApparecchiatura = idApparecchiatura;
+    public void setIdFuoriServizio(Long idFuoriServizio) {
+        this.idFuoriServizio = idFuoriServizio;
     }
 
 }

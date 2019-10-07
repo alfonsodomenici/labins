@@ -51,6 +51,7 @@ public class LaboratoriResource {
     public Laboratori all() {
         List<LaboratorioLink> db = store.allLink();
         Laboratori laboratori = new Laboratori(db);
+        laboratori.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
         return laboratori;
     }

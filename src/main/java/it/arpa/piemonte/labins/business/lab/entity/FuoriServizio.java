@@ -9,6 +9,8 @@ import it.arpa.piemonte.labins.business.CrossCheck;
 import it.arpa.piemonte.labins.business.ValidEntity;
 import it.arpa.piemonte.labins.business.lab.adapter.ApparecchiaturaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.EsitoFuoriServizioLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.MotivoFuoriServizioLinkAdapter;
 import java.time.LocalDate;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Column;
@@ -49,6 +51,7 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
         POSITIVO, NEGATIVO
     }
 
+    @JsonbTypeAdapter(MotivoFuoriServizioLinkAdapter.class)
     @Enumerated(EnumType.STRING)
     private Motivo motivo;
 
@@ -69,6 +72,7 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     @Column(name = "utente_fine")
     private String utenteFine;
 
+    @JsonbTypeAdapter(EsitoFuoriServizioLinkAdapter.class)
     @Enumerated(EnumType.STRING)
     private Esito esito;
 

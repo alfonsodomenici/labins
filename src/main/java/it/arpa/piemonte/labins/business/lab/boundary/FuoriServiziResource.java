@@ -7,12 +7,11 @@ package it.arpa.piemonte.labins.business.lab.boundary;
 
 import it.arpa.piemonte.labins.business.lab.control.ApparecchiaturaStore;
 import it.arpa.piemonte.labins.business.lab.control.FuoriServizioStore;
-import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
-import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
 import it.arpa.piemonte.labins.business.lab.entity.FuoriServizio;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -48,12 +47,18 @@ public class FuoriServiziResource {
     private Long idApparecchiatura;
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response create(FuoriServizio e, @Context UriInfo uriInfo) {
         e.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
         FuoriServizio saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
-        return Response.status(Response.Status.CREATED).entity(uri.toString()).build();
+        return Response.status(Response.Status.CREATED).entity(
+                Json.createObjectBuilder()
+                        .add("id", saved.getId())
+                        .add("uri", uri.toString())
+                        .build()
+        ).build();
     }
 
     @GET

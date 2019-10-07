@@ -6,15 +6,17 @@
 package it.arpa.piemonte.labins.business.lab.entity;
 
 import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
-import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.CateneMisuraAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.DominioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.GrandezzaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.UnitaMisuraLinkAdapter;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,6 +26,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -31,9 +35,16 @@ import javax.validation.constraints.NotEmpty;
  *
  * @author utente
  */
+@NamedQueries({
+    @NamedQuery(name = Apparecchiatura.FIND_DI_RIFERIMENTO,
+            query = "select e from Apparecchiatura e where e.laboratorio.id= :idLab and e.riferimento = true ORDER BY e.descrizione")
+})
+
 @Entity
 @Table(name = "apparecchiatura")
 public class Apparecchiatura extends BaseEntity {
+
+    public static final String FIND_DI_RIFERIMENTO = "Apparecchiatura.findDiRiferimento";
 
     @NotEmpty(message = "Il campo codice è obbligatorio")
     @Column(nullable = false)
@@ -345,6 +356,13 @@ public class Apparecchiatura extends BaseEntity {
 
     public void setGestioneManutenzione(GestioneApparecchiatura gestioneManutenzione) {
         this.gestioneManutenzione = gestioneManutenzione;
+    }
+
+    public static JsonObject convertMinimal(Apparecchiatura apparecchiatura) {
+        return Json.createObjectBuilder()
+                .add("id", apparecchiatura.getId())
+                .add("denominazione", apparecchiatura.getDescrizione())
+                .build();
     }
 
     @Override
