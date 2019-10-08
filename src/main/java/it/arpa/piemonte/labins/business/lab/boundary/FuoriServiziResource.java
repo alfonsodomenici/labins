@@ -12,6 +12,7 @@ import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -63,14 +64,25 @@ public class FuoriServiziResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/status")
+    public JsonObject status() {
+        return store.status(idApparecchiatura);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public FuoriServizi search(
+            @QueryParam("storico") Boolean storico,
+            @QueryParam("fs") Boolean fs,
+            @QueryParam("vi") Boolean vi,
+            @QueryParam("last") Boolean last,
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize
     ) {
-        List<FuoriServizioLink> db = store.searchLink(idApparecchiatura, start, pageSize);
+        List<FuoriServizioLink> db = store.searchLink(idApparecchiatura, storico, fs, vi, last, start, pageSize);
         FuoriServizi fuoriServizi = new FuoriServizi(db);
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        fuoriServizi.size = store.searchCount(idApparecchiatura);
+        fuoriServizi.size = store.searchCount(idApparecchiatura, storico, fs, vi, last);
         return fuoriServizi;
     }
 

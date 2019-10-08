@@ -10,6 +10,7 @@ import it.arpa.piemonte.labins.business.ValidEntity;
 import it.arpa.piemonte.labins.business.lab.adapter.ApparecchiaturaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.AziendaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.EsitoFuoriServizioLinkAdapter;
+import it.arpa.piemonte.labins.business.lab.adapter.FuoriServizioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.MotivoFuoriServizioLinkAdapter;
 import java.time.LocalDate;
 import javax.json.bind.annotation.JsonbTypeAdapter;
@@ -19,6 +20,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -26,11 +29,18 @@ import javax.validation.constraints.Size;
  *
  * @author utente
  */
+
+@NamedQueries({
+    @NamedQuery(name = FuoriServizio.FIND_BY_PARENT,
+            query = "select e from FuoriServizio e where e.apparecchiatura.id= :idApparecchiatura and e.parent.id= :idParent ")
+})
 @Entity
 @Table(name = "fuori_servizio")
 @CrossCheck
 public class FuoriServizio extends AbstractEntity implements ValidEntity {
 
+    public static final String FIND_BY_PARENT = "FuoriServizio.findByParent";
+    
     @Override
     public boolean isValid() {
         switch (motivo) {
@@ -50,6 +60,10 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     public static enum Esito {
         POSITIVO, NEGATIVO
     }
+
+    @JsonbTypeAdapter(FuoriServizioLinkAdapter.class)
+    @ManyToOne
+    private FuoriServizio parent;
 
     @JsonbTypeAdapter(MotivoFuoriServizioLinkAdapter.class)
     @Enumerated(EnumType.STRING)
@@ -83,21 +97,29 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     @Column(name = "data_certificato")
     private LocalDate certificatoIl;
     private boolean accreditato;
-    
+
     @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Azienda azienda;
-    
+
     @JsonbTypeAdapter(ApparecchiaturaLinkAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(name = "riferimento_id", nullable = false)
     private Apparecchiatura riferimento;
-    
+
     @Column(name = "necessaria_verifica")
     private boolean necessariaVerifica;
     @Column(name = "giorni_verifica")
     private int giorniVerifica;
+
+    public FuoriServizio getParent() {
+        return parent;
+    }
+
+    public void setParent(FuoriServizio parent) {
+        this.parent = parent;
+    }
 
     public Motivo getMotivo() {
         return motivo;
