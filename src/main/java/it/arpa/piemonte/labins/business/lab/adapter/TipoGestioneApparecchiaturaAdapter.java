@@ -26,7 +26,7 @@ public class TipoGestioneApparecchiaturaAdapter implements JsonbAdapter<Gestione
 
     @Override
     public GestioneApparecchiatura.Tipo adaptFromJson(JsonObject obj) throws Exception {
-        return GestioneApparecchiatura.Tipo.values()[obj.getInt("id")];
+        return obj.getInt("id")== -1 ? null : GestioneApparecchiatura.Tipo.values()[obj.getInt("id")];
     }
     
 }

@@ -26,7 +26,7 @@ public class EsitoFuoriServizioLinkAdapter implements JsonbAdapter<FuoriServizio
 
     @Override
     public FuoriServizio.Esito adaptFromJson(JsonObject obj) throws Exception {
-        return FuoriServizio.Esito.values()[obj.getInt("id")];
+        return obj.getInt("id")== -1 ? null : FuoriServizio.Esito.values()[obj.getInt("id")];
     }
     
 }

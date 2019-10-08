@@ -23,6 +23,7 @@ public class FuoriServizioLink {
     public FuoriServizio.Esito esito;
     public LocalDate inizio;
     public LocalDate fine;
+    public String denominazione;
     
     public FuoriServizioLink(FuoriServizio e) {
         this.id = e.getId();
@@ -30,6 +31,7 @@ public class FuoriServizioLink {
         this.esito=e.getEsito();
         this.inizio = e.getInizio();
         this.fine = e.getFine();
+        this.denominazione = e.getMotivo().name() + " " + e.getInizio() + " - " + e.getFine();
     }
 
 }

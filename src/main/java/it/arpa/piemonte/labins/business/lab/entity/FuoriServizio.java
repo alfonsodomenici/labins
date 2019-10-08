@@ -99,13 +99,11 @@ public class FuoriServizio extends AbstractEntity implements ValidEntity {
     private boolean accreditato;
 
     @JsonbTypeAdapter(AziendaLinkAdapter.class)
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne()
     private Azienda azienda;
 
     @JsonbTypeAdapter(ApparecchiaturaLinkAdapter.class)
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "riferimento_id", nullable = false)
+    @ManyToOne()
     private Apparecchiatura riferimento;
 
     @Column(name = "necessaria_verifica")

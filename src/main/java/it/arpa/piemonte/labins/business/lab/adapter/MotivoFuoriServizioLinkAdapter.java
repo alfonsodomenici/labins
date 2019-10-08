@@ -26,7 +26,7 @@ public class MotivoFuoriServizioLinkAdapter implements JsonbAdapter<FuoriServizi
 
     @Override
     public FuoriServizio.Motivo adaptFromJson(JsonObject obj) throws Exception {
-        return FuoriServizio.Motivo.values()[obj.getInt("id")];
+        return obj.getInt("id")== -1 ? null : FuoriServizio.Motivo.values()[obj.getInt("id")];
     }
     
 }

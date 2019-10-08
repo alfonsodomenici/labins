@@ -25,6 +25,7 @@ public class FuoriServizioLinkAdapter implements JsonbAdapter<FuoriServizio, Jso
     public JsonObject adaptToJson(FuoriServizio obj) throws Exception {
         return Json.createObjectBuilder()
                 .add("id", obj.getId())
+                .add("denominazione", obj.getMotivo().name() + " " + obj.getInizio() + " - " + obj.getFine())
                 .build();
     }
 

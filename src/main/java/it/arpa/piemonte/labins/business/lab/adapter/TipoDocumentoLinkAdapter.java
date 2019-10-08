@@ -26,7 +26,7 @@ public class TipoDocumentoLinkAdapter implements JsonbAdapter<Documento.Tipo, Js
 
     @Override
     public Documento.Tipo adaptFromJson(JsonObject obj) throws Exception {
-        return Documento.Tipo.values()[obj.getInt("id")];
+        return obj.getInt("id")== -1 ? null : Documento.Tipo.values()[obj.getInt("id")];
     }
     
 }
