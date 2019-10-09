@@ -12,7 +12,6 @@ import it.arpa.piemonte.labins.business.lab.adapter.GrandezzaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.UnitaMisuraLinkAdapter;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 import javax.json.Json;
@@ -46,9 +45,17 @@ public class Apparecchiatura extends BaseEntity {
 
     public static final String FIND_DI_RIFERIMENTO = "Apparecchiatura.findDiRiferimento";
 
-    @NotEmpty(message = "Il campo codice è obbligatorio")
+    @NotEmpty(message = "Il campo modello è obbligatorio")
     @Column(nullable = false)
+    private String modello;
+
+    @NotEmpty(message = "Il campo matricola è obbligatorio")
+    @Column(nullable = false)
+    private String matricola;
+
     private String codice;
+
+    private String firmware;
 
     @NotEmpty(message = "Il campo descrizione è obbligatorio")
     @Column(nullable = false)
@@ -90,10 +97,6 @@ public class Apparecchiatura extends BaseEntity {
     @JsonbTypeAdapter(AziendaLinkAdapter.class)
     @ManyToOne
     private Azienda manutentore; //deve esserci ???
-
-    @NotEmpty(message = "Il campo matricola è obbligatorio")
-    @Column(nullable = false)
-    private String matricola;
 
     private boolean riferimento;
 
@@ -363,6 +366,22 @@ public class Apparecchiatura extends BaseEntity {
                 .add("id", apparecchiatura.getId())
                 .add("denominazione", apparecchiatura.getDescrizione())
                 .build();
+    }
+
+    public String getModello() {
+        return modello;
+    }
+
+    public void setModello(String modello) {
+        this.modello = modello;
+    }
+
+    public String getFirmware() {
+        return firmware;
+    }
+
+    public void setFirmware(String firmware) {
+        this.firmware = firmware;
     }
 
     @Override
