@@ -10,6 +10,7 @@ import it.arpa.piemonte.labins.business.lab.entity.Azienda;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -43,11 +44,17 @@ public class AziendeResource {
     UriInfo uriInfo;
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     public Response create(Azienda e, @Context UriInfo uriInfo) {
         Azienda saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
-        return Response.status(Response.Status.CREATED).entity(uri.toString()).build();
+        return Response.status(Response.Status.CREATED).entity(
+                Json.createObjectBuilder()
+                        .add("id", saved.getId())
+                        .add("uri", uri.toString())
+                        .build()
+        ).build();
     }
 
     @GET

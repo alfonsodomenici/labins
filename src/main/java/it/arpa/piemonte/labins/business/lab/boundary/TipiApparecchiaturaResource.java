@@ -11,6 +11,7 @@ import it.arpa.piemonte.labins.business.lab.entity.TipoApparecchiatura;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,12 +42,18 @@ public class TipiApparecchiaturaResource {
     private Long idLab;
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     public Response create(TipoApparecchiatura e, @Context UriInfo uriInfo) {
         e.setLaboratorio(labStore.find(idLab));
         TipoApparecchiatura saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
-        return Response.status(Response.Status.CREATED).entity(uri.toString()).build();
+        return Response.status(Response.Status.CREATED).entity(
+                Json.createObjectBuilder()
+                        .add("id", saved.getId())
+                        .add("uri", uri.toString())
+                        .build()
+        ).build();
     }
 
     @GET

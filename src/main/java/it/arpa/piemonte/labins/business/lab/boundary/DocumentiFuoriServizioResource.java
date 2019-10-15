@@ -78,11 +78,11 @@ public class DocumentiFuoriServizioResource {
             @QueryParam("page-size") Integer pageSize
     ) {
         System.out.println("find documenti for apparecchiatura " + idFuoriServizio);
-        List<DocumentoLink> db = store.searchLink(idFuoriServizio, null, start, pageSize);
+        List<DocumentoLink> db = store.searchLink(null, idFuoriServizio, start, pageSize);
         Documenti documenti = new Documenti(db);
         documenti.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        documenti.size = store.searchCount(idFuoriServizio, null);
+        documenti.size = store.searchCount(null, idFuoriServizio);
         return documenti;
     }
 

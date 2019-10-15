@@ -10,6 +10,7 @@ import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -36,14 +37,21 @@ public class LaboratoriResource {
     @Context
     ResourceContext resource;
 
-    @Context UriInfo uriInfo;
-            
+    @Context
+    UriInfo uriInfo;
+
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     public Response create(Laboratorio e, @Context UriInfo uriInfo) {
         Laboratorio saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
-        return Response.status(Response.Status.CREATED).entity(uri.toString()).build();
+        return Response.status(Response.Status.CREATED).entity(
+                Json.createObjectBuilder()
+                        .add("id", saved.getId())
+                        .add("uri", uri.toString())
+                        .build()
+        ).build();
     }
 
     @GET
