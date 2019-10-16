@@ -18,11 +18,11 @@ public class TipoApparecchiaturaLink {
     
     public Link link;
 
-    public String codice;
+    public String denominazione;
     
     public TipoApparecchiaturaLink(TipoApparecchiatura e) {
         this.id = e.getId();
-        this.codice = e.getCodice();
+        this.denominazione = e.getDescrizione();
     }
 
 }

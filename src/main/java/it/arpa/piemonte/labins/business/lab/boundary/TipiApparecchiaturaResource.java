@@ -12,12 +12,14 @@ import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -62,6 +64,13 @@ public class TipiApparecchiaturaResource {
         return store.all(idLab);
     }
 
+    @GET
+    @Path("/minimal")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonArray allMinimal() {
+        return store.allAsCustomJson(idLab);
+    }
+    
     @Path("{id}")
     public TipoApparecchiaturaResource find(@PathParam("id") Long id) {
         TipoApparecchiaturaResource sub = resource.getResource(TipoApparecchiaturaResource.class);

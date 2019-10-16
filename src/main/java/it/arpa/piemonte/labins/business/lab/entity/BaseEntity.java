@@ -6,10 +6,9 @@
 package it.arpa.piemonte.labins.business.lab.entity;
 
 import java.time.LocalDate;
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 
 /**
  *
@@ -18,11 +17,11 @@ import javax.validation.constraints.Past;
 @MappedSuperclass
 public class BaseEntity extends AbstractEntity {
 
-    @Past
+    @PastOrPresent
     @Column(name = "data_creazione")
     protected LocalDate creatoIl;
 
-    @Past
+    @PastOrPresent
     @Column(name = "data_modifca")
     protected LocalDate modificatoIl;
 

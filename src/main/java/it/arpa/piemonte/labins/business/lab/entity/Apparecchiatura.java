@@ -13,6 +13,7 @@ import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.TipoApparecchiaturaLinkAdapter;
 import it.arpa.piemonte.labins.business.lab.adapter.UnitaMisuraLinkAdapter;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -130,9 +131,6 @@ public class Apparecchiatura extends BaseEntity {
 
     @Column(name = "data_entrata_funzione")
     private LocalDate inFunzioneDal;
-
-    @Column(name = "data_pianificata")
-    private LocalDate dataPianificata;
 
     private Boolean taratura = false;
     private Boolean manutenzione = false;
@@ -257,7 +255,7 @@ public class Apparecchiatura extends BaseEntity {
         this.um = um;
     }
 
-    public double getCampoMin() {
+    public Double getCampoMin() {
         return campoMin;
     }
 
@@ -321,14 +319,6 @@ public class Apparecchiatura extends BaseEntity {
         this.inFunzioneDal = inFunzioneDal;
     }
 
-    public LocalDate getDataPianificata() {
-        return dataPianificata;
-    }
-
-    public void setDataPianificata(LocalDate dataPianificata) {
-        this.dataPianificata = dataPianificata;
-    }
-
     public Boolean isTaratura() {
         return taratura;
     }
@@ -361,13 +351,6 @@ public class Apparecchiatura extends BaseEntity {
         this.gestioneManutenzione = gestioneManutenzione;
     }
 
-    public static JsonObject convertMinimal(Apparecchiatura apparecchiatura) {
-        return Json.createObjectBuilder()
-                .add("id", apparecchiatura.getId())
-                .add("denominazione", apparecchiatura.getDescrizione())
-                .build();
-    }
-
     public String getModello() {
         return modello;
     }
@@ -386,6 +369,24 @@ public class Apparecchiatura extends BaseEntity {
 
     @Override
     public String toString() {
-        return codice;
+        return "Apparecchiatura{" + "modello=" + modello + ", matricola=" + matricola + ", codice=" + codice + ", firmware=" + firmware + ", descrizione=" + descrizione + ", laboratorio=" + laboratorio + ", dominio=" + dominio + ", cateneMisura=" + cateneMisura + ", tipologia=" + tipologia + ", costruttore=" + costruttore + ", distributore=" + distributore + ", taratore=" + taratore + ", manutentore=" + manutentore + ", riferimento=" + riferimento + ", grandezza=" + grandezza + ", um=" + um + ", campoMin=" + campoMin + ", campoMax=" + campoMax + ", incertezza=" + incertezza + ", campoOperativo=" + campoOperativo + ", criterioAccettazione=" + criterioAccettazione + ", fabbricatoIl=" + fabbricatoIl + ", acquistatoIl=" + acquistatoIl + ", inFunzioneDal=" + inFunzioneDal + ", taratura=" + taratura + ", manutenzione=" + manutenzione + ", gestioneTaratura=" + gestioneTaratura + ", gestioneManutenzione=" + gestioneManutenzione + '}';
     }
+
+    public LocalDate getDataPianificata() {
+        Optional<LocalDate> dpTar = this.getGestioneTaratura() == null || this.getGestioneTaratura().getDataPianificata() == null
+                ? Optional.empty() : Optional.of(this.getGestioneTaratura().getDataPianificata());
+        Optional<LocalDate> dpMan = this.getGestioneManutenzione() == null || this.getGestioneManutenzione().getDataPianificata() == null
+                ? Optional.empty() : Optional.of(this.getGestioneManutenzione().getDataPianificata());
+        LocalDate d1 = dpTar.orElse(dpMan.orElse(LocalDate.MIN));
+        LocalDate d2 = dpMan.orElse(dpTar.orElse(LocalDate.MIN));
+        return d1 == d2 && d1 == LocalDate.MIN ? null : d1.isBefore(d2) ? d1 : d2;
+    }
+
+    public static JsonObject convertMinimal(Apparecchiatura apparecchiatura) {
+        return Json.createObjectBuilder()
+                .add("id", apparecchiatura.getId())
+                .add("denominazione", apparecchiatura.getDescrizione())
+                .build();
+    }
+
 }

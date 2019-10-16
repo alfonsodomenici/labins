@@ -5,6 +5,8 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -20,11 +22,6 @@ import javax.validation.constraints.Size;
 @Table(name = "tipo_apparecchiatura")
 public class TipoApparecchiatura extends AbstractEntity {
 
-    @NotEmpty(message = "Il campo codice è obbligatorio")
-    @Size(message = "Il campo codice può avere al max 255 caratteri")
-    @Column(nullable = false)
-    private String codice;
-
     @NotEmpty(message = "Il campo descrizione è obbligatorio")
     @Column(nullable = false)
     @Size(message = "Il campo descrizione può avere al max 255 caratteri")
@@ -38,14 +35,6 @@ public class TipoApparecchiatura extends AbstractEntity {
 
     public TipoApparecchiatura(Long id) {
         this.id = id;
-    }
-    
-    public String getCodice() {
-        return codice;
-    }
-
-    public void setCodice(String codice) {
-        this.codice = codice;
     }
 
     public String getDescrizione() {
@@ -66,7 +55,14 @@ public class TipoApparecchiatura extends AbstractEntity {
 
     @Override
     public String toString() {
-        return codice;
+        return this.descrizione;
+    }
+    
+    public static JsonObject convertMinimal(TipoApparecchiatura tipo) {
+        return Json.createObjectBuilder()
+                .add("id", tipo.getId())
+                .add("denominazione", tipo.getDescrizione())
+                .build();
     }
 
 }

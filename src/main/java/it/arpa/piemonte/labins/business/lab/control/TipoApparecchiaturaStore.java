@@ -6,9 +6,9 @@
 package it.arpa.piemonte.labins.business.lab.control;
 
 import it.arpa.piemonte.labins.business.lab.entity.TipoApparecchiatura;
-import it.arpa.piemonte.labins.business.lab.entity.TipoApparecchiatura;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.json.JsonArray;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author utente
  */
 @Stateless
-public class TipoApparecchiaturaStore {
+public class TipoApparecchiaturaStore extends Store<TipoApparecchiatura> {
 
     @PersistenceContext(unitName = "pu")
     private EntityManager em;
@@ -35,9 +35,16 @@ public class TipoApparecchiaturaStore {
     }
 
     public List<TipoApparecchiatura> all(Long idLab){
-        return em.createQuery("select e from TipoApparecchiatura e where e.laboratorio.id= :idLab order by e.codice", TipoApparecchiatura.class)
+        return em.createQuery("select e from TipoApparecchiatura e where e.laboratorio.id= :idLab order by e.descrizione", TipoApparecchiatura.class)
                 .setParameter("idLab", idLab)
                 .getResultList();
     }
     
+    public JsonArray allAsCustomJson(Long idLab){
+        return this.all(idLab)
+                .stream()
+                .map(TipoApparecchiatura::convertMinimal)
+                .collect(jsonCollector)
+                .build();
+    }
 }

@@ -53,6 +53,7 @@ public class ApparecchiaturaResource {
     public Apparecchiatura update(Apparecchiatura p) {
         p.setId(id);
         p.setLaboratorio(labStore.find(idLab));
+        System.out.println(p.toString());
         //TODO se non esiste id non inserire
         return store.save(p);
     }

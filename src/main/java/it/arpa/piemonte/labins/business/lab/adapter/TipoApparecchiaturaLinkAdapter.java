@@ -25,7 +25,7 @@ public class TipoApparecchiaturaLinkAdapter implements JsonbAdapter<TipoApparecc
     public JsonObject adaptToJson(TipoApparecchiatura obj) throws Exception {
         return Json.createObjectBuilder()
                 .add("id", obj.getId())
-                .add("descrizione", obj.getDescrizione())
+                .add("denominazione", obj.getDescrizione())
                 .build();
     }
 
