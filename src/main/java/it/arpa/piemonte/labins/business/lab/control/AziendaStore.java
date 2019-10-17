@@ -46,7 +46,8 @@ public class AziendaStore extends Store {
     private Predicate searchPredicate(
             CriteriaBuilder cb,
             Root<Azienda> root,
-            String tipo) {
+            String tipo,
+            String denominazione) {
 
         Predicate cond = cb.conjunction();
         cond = cb.and(cond, cb.equal(root.get("nascosto"), false));
@@ -68,11 +69,15 @@ public class AziendaStore extends Store {
                     cond = cb.and(cond, cb.equal(root.get("id"), -1));
             }
         }
+        if(denominazione!=null && !denominazione.isEmpty()){
+            cond = cb.and(cond, cb.like(root.get("denominazione"), denominazione + "%"));
+        }
         return cond;
     }
 
     public List<Azienda> search(
             String tipo,
+            String denominazione,
             Integer start,
             Integer pageSize) {
 
@@ -81,7 +86,7 @@ public class AziendaStore extends Store {
         Root<Azienda> root = query.from(Azienda.class);
 
         query.select(root)
-                .where(searchPredicate(cb, root, tipo))
+                .where(searchPredicate(cb, root, tipo,denominazione))
                 .orderBy(cb.asc(root.get("denominazione")));
 
         TypedQuery<Azienda> q = em.createQuery(query);
@@ -96,20 +101,22 @@ public class AziendaStore extends Store {
 
     public List<AziendaLink> searchLink(
             String tipo,
+            String denominazione,
             Integer start,
             Integer pageSize) {
-        return search(tipo, start, pageSize).stream().map(AziendaLink::new).collect(Collectors.toList());
+        return search(tipo,denominazione, start, pageSize).stream().map(AziendaLink::new).collect(Collectors.toList());
     }
 
     public int searchCount(
-            String tipo) {
+            String tipo,
+            String denominazione) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery query = cb.createQuery();
         Root<Azienda> root = query.from(Azienda.class);
 
         query.select(cb.count(root))
-                .where(searchPredicate(cb, root, tipo));
+                .where(searchPredicate(cb, root, tipo,denominazione));
 
         return ((Long) em.createQuery(query)
                 .getSingleResult()).intValue();

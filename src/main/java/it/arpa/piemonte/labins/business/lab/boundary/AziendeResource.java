@@ -61,13 +61,14 @@ public class AziendeResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Aziende search(
             @QueryParam("tipo") String tipo,
+            @QueryParam("denominazione") String denominazione,
             @QueryParam("start") Integer start,
             @QueryParam("page-size") Integer pageSize) {
-        List<AziendaLink> db = store.searchLink(tipo, start, pageSize);
+        List<AziendaLink> db = store.searchLink(tipo,denominazione, start, pageSize);
         Aziende aziende = new Aziende(db);
         aziende.link = Link.fromUri(uriInfo.getPath()).rel("uri").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        aziende.size = store.searchCount(tipo);
+        aziende.size = store.searchCount(tipo,denominazione);
         return aziende;
     }
 
