@@ -72,13 +72,6 @@ public class FuoriServizioResource {
         return sub;
     }
     
-    @Path("deroghe")
-    public DerogheResource deroghe() {
-        DerogheResource sub = resource.getResource(DerogheResource.class);
-        sub.setIdFuoriServizio(id);
-        return sub;
-    }
-    
     public Long getIdApparecchiatura() {
         return idApparecchiatura;
     }

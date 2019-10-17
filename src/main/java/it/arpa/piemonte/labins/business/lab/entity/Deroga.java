@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -30,8 +31,11 @@ public class Deroga extends BaseEntity {
     @Size(message = "Il campo motivazione può avere al max 2048 caratteri")
     private String motivazione;
 
+    @Transient
+    private String tipo;
+
     @JsonbTypeAdapter(ApparecchiaturaLinkAdapter.class)
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Apparecchiatura apparecchiatura;
 
     @JsonbTypeAdapter(FuoriServizioLinkAdapter.class)
@@ -68,6 +72,14 @@ public class Deroga extends BaseEntity {
 
     public void setFs(FuoriServizio fs) {
         this.fs = fs;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     @Override

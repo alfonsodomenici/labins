@@ -34,8 +34,9 @@ public class DerogaStore {
         return em.find(Deroga.class, id);
     }
 
-    public List<Deroga> all(){
-        return em.createQuery("select e from Grandezza e order by e.denominazione", Deroga.class)
+    public List<Deroga> findByApparecchiatura(Long idApparecchiatura){
+        return em.createQuery("select e from Deroga e where e.apparecchiatura.id= :idApparecchiatura order by e.derogaScadenza", Deroga.class)
+                .setParameter("idApparecchiatura", idApparecchiatura)
                 .getResultList();
     }
     

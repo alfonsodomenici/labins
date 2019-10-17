@@ -80,6 +80,7 @@ public class AziendeResource {
     }
 
     @PUT
+    @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Azienda update(Azienda e, @PathParam("id") Long id) {

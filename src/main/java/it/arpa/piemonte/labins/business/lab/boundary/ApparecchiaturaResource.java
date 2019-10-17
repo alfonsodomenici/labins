@@ -73,6 +73,13 @@ public class ApparecchiaturaResource {
         return sub;
     }
 
+    @Path("deroghe")
+    public DerogheResource deroghe() {
+        DerogheResource sub = resource.getResource(DerogheResource.class);
+        sub.setIdApparecchiatura(id);
+        return sub;
+    }
+    
     @Path("documenti")
     public DocumentiApparecchiaturaResource documenti() {
         DocumentiApparecchiaturaResource sub = resource.getResource(DocumentiApparecchiaturaResource.class);

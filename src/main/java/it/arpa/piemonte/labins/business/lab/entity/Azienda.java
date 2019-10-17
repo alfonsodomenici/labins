@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "azienda")
-@XmlRootElement
 public class Azienda extends BaseEntity {
 
     @NotEmpty(message = "Il campo denominazione è obbligatorio")

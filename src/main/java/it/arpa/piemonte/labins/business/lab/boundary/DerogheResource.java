@@ -5,9 +5,8 @@
  */
 package it.arpa.piemonte.labins.business.lab.boundary;
 
+import it.arpa.piemonte.labins.business.lab.control.ApparecchiaturaStore;
 import it.arpa.piemonte.labins.business.lab.control.DerogaStore;
-import it.arpa.piemonte.labins.business.lab.control.DerogaStore;
-import it.arpa.piemonte.labins.business.lab.entity.Deroga;
 import it.arpa.piemonte.labins.business.lab.entity.Deroga;
 import java.net.URI;
 import java.util.List;
@@ -36,15 +35,19 @@ public class DerogheResource {
     @Inject
     DerogaStore store;
 
+    @Inject
+    ApparecchiaturaStore apparecchiaturaStore;
+    
     @Context
     ResourceContext resource;
 
-    private Long idFuoriServizio;
+    private Long idApparecchiatura;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     public Response create(Deroga e, @Context UriInfo uriInfo) {
+        e.setApparecchiatura(apparecchiaturaStore.find(idApparecchiatura));
         Deroga saved = store.save(e);
         URI uri = uriInfo.getAbsolutePathBuilder().path("/" + saved.getId()).build();
         return Response.status(Response.Status.CREATED).entity(
@@ -57,8 +60,8 @@ public class DerogheResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Deroga> all() {
-        return store.all();
+    public List<Deroga> findByApparecchiatura() {
+        return store.findByApparecchiatura(idApparecchiatura);
     }
 
     @GET
@@ -85,12 +88,12 @@ public class DerogheResource {
                 .build();
     }
 
-    public Long getIdFuoriServizio() {
-        return idFuoriServizio;
+    public Long getIdApparecchiatura() {
+        return idApparecchiatura;
     }
 
-    public void setIdFuoriServizio(Long idFuoriServizio) {
-        this.idFuoriServizio = idFuoriServizio;
+    public void setIdApparecchiatura(Long idApparecchiatura) {
+        this.idApparecchiatura = idApparecchiatura;
     }
 
 }
