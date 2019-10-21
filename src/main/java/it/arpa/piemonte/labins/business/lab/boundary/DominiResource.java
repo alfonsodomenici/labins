@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -28,17 +29,19 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author utente
  */
-
 public class DominiResource {
 
     @Inject
     LaboratorioStore labStore;
-    
+
     @Inject
     DominioStore store;
 
     @Context
     ResourceContext resource;
+
+    @Context
+    UriInfo uriInfo;
 
     private Long idLab;
 
@@ -59,8 +62,12 @@ public class DominiResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Dominio> all() {
-        return store.all(idLab);
+    public Domini all() {
+        List<DominioLink> db = store.allLink(idLab);
+        Domini domini = new Domini(db);
+        domini.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
+        db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
+        return domini;
     }
 
     @Path("{id}")
@@ -79,5 +86,4 @@ public class DominiResource {
         this.idLab = idLab;
     }
 
-    
 }

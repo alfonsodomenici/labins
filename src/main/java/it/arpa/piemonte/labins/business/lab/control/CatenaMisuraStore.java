@@ -5,9 +5,12 @@
  */
 package it.arpa.piemonte.labins.business.lab.control;
 
+import it.arpa.piemonte.labins.business.lab.boundary.CatenaMisuraLink;
 import it.arpa.piemonte.labins.business.lab.entity.CatenaMisura;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
+import javax.json.stream.JsonCollectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -35,10 +38,14 @@ public class CatenaMisuraStore {
         return em.find(CatenaMisura.class, id);
     }
 
-    public List<CatenaMisura> all(Long idDom){
+    public List<CatenaMisura> all(Long idDom) {
         return em.createQuery("select e from CatenaMisura e where e.nascosto=false and e.dominio.id = :idDom order by e.denominazione", CatenaMisura.class)
                 .setParameter("idDom", idDom)
                 .getResultList();
     }
-    
+
+    public List<CatenaMisuraLink> allLink(Long idDom) {
+        return all(idDom).stream().map(CatenaMisuraLink::new).collect(Collectors.toList());
+    }
+
 }

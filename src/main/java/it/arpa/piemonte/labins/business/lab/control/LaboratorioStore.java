@@ -38,12 +38,12 @@ public class LaboratorioStore {
         return em.find(Laboratorio.class, id);
     }
 
-    public List<Laboratorio> all(){
+    public List<Laboratorio> all() {
         return em.createQuery("select e from Laboratorio e where e.nascosto=false order by e.denominazione", Laboratorio.class)
                 .getResultList();
     }
-    
-     public List<LaboratorioLink> allLink() {
+
+    public List<LaboratorioLink> allLink() {
         return all().stream().map(LaboratorioLink::new).collect(Collectors.toList());
     }
 }

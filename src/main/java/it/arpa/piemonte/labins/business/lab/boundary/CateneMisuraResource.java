@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -38,6 +39,9 @@ public class CateneMisuraResource {
 
     @Context
     ResourceContext resource;
+
+    @Context
+    UriInfo uriInfo;
 
     private Long idDom;
 
@@ -58,8 +62,12 @@ public class CateneMisuraResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CatenaMisura> all() {
-        return store.all(idDom);
+    public CateneMisura all() {
+        List<CatenaMisuraLink> db = store.allLink(idDom);
+        CateneMisura catene = new CateneMisura(db);
+        catene.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
+        db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
+        return catene;
     }
 
     @Path("{id}")

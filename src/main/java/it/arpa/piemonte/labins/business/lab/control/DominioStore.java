@@ -5,8 +5,11 @@
  */
 package it.arpa.piemonte.labins.business.lab.control;
 
+import it.arpa.piemonte.labins.business.lab.boundary.DominioLink;
+import it.arpa.piemonte.labins.business.lab.boundary.LaboratorioLink;
 import it.arpa.piemonte.labins.business.lab.entity.Dominio;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,10 +38,13 @@ public class DominioStore {
         return em.find(Dominio.class, id);
     }
 
-    public List<Dominio> all(Long idLab){
+    public List<Dominio> all(Long idLab) {
         return em.createQuery("select e from Dominio e where e.nascosto=false and e.laboratorio.id = :idLab order by e.denominazione", Dominio.class)
                 .setParameter("idLab", idLab)
                 .getResultList();
     }
-    
+
+    public List<DominioLink> allLink(Long idLab) {
+        return all(idLab).stream().map(DominioLink::new).collect(Collectors.toList());
+    }
 }
