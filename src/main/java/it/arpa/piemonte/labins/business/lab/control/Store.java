@@ -22,7 +22,6 @@ public abstract class Store<K> {
         if (field.indexOf('.') == -1) {
             return rq.<E>get(field);
         }
-
         String[] fields = field.split("\\.");
         Path<E> p = rq.<E>get(fields[0]);
         for (int i = 1; i < fields.length; i++) {

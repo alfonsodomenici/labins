@@ -7,13 +7,13 @@ package it.arpa.piemonte.labins.business.lab.boundary;
 
 import it.arpa.piemonte.labins.business.lab.entity.Apparecchiatura;
 import java.time.LocalDate;
-import java.time.Period;
 import javax.ws.rs.core.Link;
 
 /**
  *
  * @author alfonso
  */
+
 public class ApparecchiaturaLink {
 
     public Long id;

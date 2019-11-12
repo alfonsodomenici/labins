@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -39,6 +40,7 @@ public class LaboratoriResource {
 
     @Context
     UriInfo uriInfo;
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
