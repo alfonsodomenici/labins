@@ -19,6 +19,7 @@ public class ApparecchiaturaLink {
     public Long id;
 
     public Link link;
+    public String responsabile;
     public String modello;
     public String codice;
     public String descrizione;
@@ -32,6 +33,7 @@ public class ApparecchiaturaLink {
     
     public ApparecchiaturaLink(Apparecchiatura e) {
         this.id = e.getId();
+        this.responsabile = e.getResponsabile();
         this.modello = e.getModello();
         this.codice = e.getCodice();
         this.descrizione = e.getDescrizione();

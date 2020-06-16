@@ -143,6 +143,8 @@ public class Apparecchiatura extends BaseEntity {
     @JoinColumn(name = "gestione_manutenzione_id")
     private GestioneApparecchiatura gestioneManutenzione;
 
+    private String responsabile;
+    
     public String getCodice() {
         return codice;
     }
@@ -367,6 +369,15 @@ public class Apparecchiatura extends BaseEntity {
         this.firmware = firmware;
     }
 
+    public String getResponsabile() {
+        return responsabile;
+    }
+
+    public void setResponsabile(String responsabile) {
+        this.responsabile = responsabile;
+    }
+
+    
     @Override
     public String toString() {
         return "Apparecchiatura{" + "modello=" + modello + ", matricola=" + matricola + ", codice=" + codice + ", firmware=" + firmware + ", descrizione=" + descrizione + ", laboratorio=" + laboratorio + ", dominio=" + dominio + ", cateneMisura=" + cateneMisura + ", tipologia=" + tipologia + ", costruttore=" + costruttore + ", distributore=" + distributore + ", taratore=" + taratore + ", manutentore=" + manutentore + ", riferimento=" + riferimento + ", grandezza=" + grandezza + ", um=" + um + ", campoMin=" + campoMin + ", campoMax=" + campoMax + ", incertezza=" + incertezza + ", campoOperativo=" + campoOperativo + ", criterioAccettazione=" + criterioAccettazione + ", fabbricatoIl=" + fabbricatoIl + ", acquistatoIl=" + acquistatoIl + ", inFunzioneDal=" + inFunzioneDal + ", taratura=" + taratura + ", manutenzione=" + manutenzione + ", gestioneTaratura=" + gestioneTaratura + ", gestioneManutenzione=" + gestioneManutenzione + '}';
