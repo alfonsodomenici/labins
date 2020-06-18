@@ -1,8 +1,9 @@
 package it.arpa.piemonte.labins.business;
 
-import javax.ejb.Stateless;
+import javax.annotation.security.DeclareRoles;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import org.eclipse.microprofile.auth.LoginConfig;
 
 /**
  * Configures a JAX-RS endpoint. Delete this class, if you are not exposing
@@ -11,7 +12,8 @@ import javax.ws.rs.core.Application;
  * @author airhacks.com
  */
 @ApplicationPath("api")
-@Stateless
+@LoginConfig(authMethod = "MP-JWT", realmName = "testrealm")
+@DeclareRoles({"admins","users"})
 public class JAXRSConfiguration extends Application {
 
 }

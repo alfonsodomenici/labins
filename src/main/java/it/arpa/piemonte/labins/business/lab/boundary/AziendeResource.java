@@ -9,6 +9,7 @@ import it.arpa.piemonte.labins.business.lab.control.AziendaStore;
 import it.arpa.piemonte.labins.business.lab.entity.Azienda;
 import java.net.URI;
 import java.util.List;
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.Consumes;
@@ -32,6 +33,7 @@ import javax.ws.rs.core.UriInfo;
  * @author utente
  */
 @Path("/aziende")
+@PermitAll
 public class AziendeResource {
 
     @Inject

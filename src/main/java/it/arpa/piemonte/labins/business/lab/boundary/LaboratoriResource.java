@@ -9,6 +9,7 @@ import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
 import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
 import java.net.URI;
 import java.util.List;
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.Consumes;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.UriInfo;
  * @author utente
  */
 @Path("/laboratori")
+@PermitAll
 public class LaboratoriResource {
 
     @Inject
@@ -58,12 +60,12 @@ public class LaboratoriResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Laboratori all() {
+    public Response all() {
         List<LaboratorioLink> db = store.allLink();
         Laboratori laboratori = new Laboratori(db);
         laboratori.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
-        return laboratori;
+        return Response.ok(laboratori).build();
     }
 
     @Path("{id}")
