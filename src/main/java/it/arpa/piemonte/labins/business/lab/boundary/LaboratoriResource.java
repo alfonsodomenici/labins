@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -25,6 +24,9 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 /**
  *
@@ -43,6 +45,12 @@ public class LaboratoriResource {
     @Context
     UriInfo uriInfo;
 
+    @Inject
+    JsonWebToken jwt;
+
+    @Inject
+    @Claim(standard = Claims.upn)
+    private String upn;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
