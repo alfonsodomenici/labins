@@ -10,6 +10,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -18,10 +20,18 @@ import javax.validation.constraints.Size;
  *
  * @author utente
  */
+@NamedQueries({
+
+    @NamedQuery(name = Abilitazione.FIND_BY_USR,
+            query = "select e from Abilitazione e where e.utente= :utente")
+})
+
 @Entity
 @Table(name = "abilitazione")
 public class Abilitazione extends BaseEntity {
 
+    public static final String FIND_BY_USR = "Abilitazione.findByUsr";
+    
     public static enum Livello {
         NO_ACCESS, LETTURA, MODIFICA
     }

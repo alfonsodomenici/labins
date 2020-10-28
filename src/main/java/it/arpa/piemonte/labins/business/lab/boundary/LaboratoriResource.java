@@ -22,6 +22,7 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import org.eclipse.microprofile.jwt.Claim;
@@ -69,6 +70,7 @@ public class LaboratoriResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response all() {
+        System.out.println("----------------- all laboratori ------------------------------------------- " + upn);
         List<LaboratorioLink> db = store.allLink();
         Laboratori laboratori = new Laboratori(db);
         laboratori.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
@@ -77,7 +79,8 @@ public class LaboratoriResource {
     }
 
     @Path("{id}")
-    public LaboratorioResource find(@PathParam("id") Long id) {
+    public LaboratorioResource find(@PathParam("id") Long id, @Context Request req) {
+        System.out.println(req.getMethod());
         LaboratorioResource sub = resource.getResource(LaboratorioResource.class);
         sub.setId(id);
         return sub;

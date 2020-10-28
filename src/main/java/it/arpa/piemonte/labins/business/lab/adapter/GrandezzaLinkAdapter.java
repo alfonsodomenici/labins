@@ -33,7 +33,7 @@ public class GrandezzaLinkAdapter implements JsonbAdapter<Grandezza, JsonObject>
 
     @Override
     public Grandezza adaptFromJson(JsonObject obj) throws Exception {
-        return store.find(new Long(obj.getInt("id")));
+        return store.find(Long.valueOf(obj.getInt("id")));
     }
 
 }

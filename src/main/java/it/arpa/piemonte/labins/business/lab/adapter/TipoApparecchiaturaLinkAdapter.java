@@ -31,7 +31,7 @@ public class TipoApparecchiaturaLinkAdapter implements JsonbAdapter<TipoApparecc
 
     @Override
     public TipoApparecchiatura adaptFromJson(JsonObject obj) throws Exception {
-        return store.find(new Long(obj.getInt("id")));
+        return store.find(Long.valueOf(obj.getInt("id")));
     }
 
 }

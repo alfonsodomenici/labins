@@ -31,7 +31,7 @@ public class FuoriServizioLinkAdapter implements JsonbAdapter<FuoriServizio, Jso
 
     @Override
     public FuoriServizio adaptFromJson(JsonObject obj) throws Exception {
-        return store.find(new Long(obj.getInt("id")));
+        return store.find(Long.valueOf(obj.getInt("id")));
     }
 
 }

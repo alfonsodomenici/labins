@@ -31,7 +31,7 @@ public class UnitaMisuraLinkAdapter implements JsonbAdapter<UnitaMisura, JsonObj
 
     @Override
     public UnitaMisura adaptFromJson(JsonObject obj) throws Exception {
-        return store.find(new Long(obj.getInt("id")));
+        return store.find(Long.valueOf(obj.getInt("id")));
     }
 
 }
