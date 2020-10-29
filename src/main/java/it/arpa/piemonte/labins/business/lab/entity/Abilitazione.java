@@ -5,6 +5,8 @@
  */
 package it.arpa.piemonte.labins.business.lab.entity;
 
+import it.arpa.piemonte.labins.business.lab.adapter.LaboratorioLinkAdapter;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -40,6 +42,7 @@ public class Abilitazione extends BaseEntity {
     @Size(message = "Il campo utente può avere al max 255 caratteri")
     private String utente;
     
+    @JsonbTypeAdapter(LaboratorioLinkAdapter.class)
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private Laboratorio laboratorio;

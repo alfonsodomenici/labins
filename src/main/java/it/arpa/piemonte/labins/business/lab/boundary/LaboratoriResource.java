@@ -5,15 +5,22 @@
  */
 package it.arpa.piemonte.labins.business.lab.boundary;
 
+import it.arpa.piemonte.labins.business.lab.control.AbilitazioneStore;
 import it.arpa.piemonte.labins.business.lab.control.LaboratorioStore;
+import it.arpa.piemonte.labins.business.lab.entity.Abilitazione;
 import it.arpa.piemonte.labins.business.lab.entity.Laboratorio;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -39,6 +46,9 @@ public class LaboratoriResource {
 
     @Inject
     LaboratorioStore store;
+
+    @Inject
+    AbilitazioneStore abilitazioneStore;
 
     @Context
     ResourceContext resource;
@@ -70,8 +80,8 @@ public class LaboratoriResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response all() {
-        System.out.println("----------------- all laboratori ------------------------------------------- " + upn);
-        List<LaboratorioLink> db = store.allLink();
+        List<Long> noAccess = abilitazioneStore.findLaboratoriByUsrAndLivello(upn, Abilitazione.Livello.NO_ACCESS);
+        List<LaboratorioLink> db = store.allLink().stream().filter(v -> !noAccess.contains(v.id)).collect(Collectors.toList());
         Laboratori laboratori = new Laboratori(db);
         laboratori.link = Link.fromUri(uriInfo.getPath()).rel("self").build();
         db.stream().forEach(e -> e.link = Link.fromUri(uriInfo.getPath() + "/" + e.id).rel("self").build());
@@ -80,10 +90,22 @@ public class LaboratoriResource {
 
     @Path("{id}")
     public LaboratorioResource find(@PathParam("id") Long id, @Context Request req) {
-        System.out.println(req.getMethod());
+        checkPermission(req.getMethod(), id);
         LaboratorioResource sub = resource.getResource(LaboratorioResource.class);
         sub.setId(id);
         return sub;
     }
 
+    private void checkPermission(String method, Long labId) {
+        if (method.equals(HttpMethod.OPTIONS)) {
+            return;
+        }
+        Abilitazione permission = abilitazioneStore.findByUsrAndLaboratorio(upn, labId).orElseThrow(() -> new ForbiddenException());
+
+        if (permission.getLivello() == Abilitazione.Livello.NO_ACCESS
+                || (permission.getLivello() == Abilitazione.Livello.LETTURA && !method.equals(HttpMethod.GET))) {
+            throw new ForbiddenException();
+        }
+
+    }
 }
